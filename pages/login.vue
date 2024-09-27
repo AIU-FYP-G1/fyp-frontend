@@ -30,11 +30,11 @@ const tabs = [
     <div class="right-panel">
       <div class="form-container">
         <CTabs :activeItemKey="1">
-          <CTabList variant="underline-border">
+          <CTabList variant="underline-border" class="form-navigation">
             <CTab aria-controls="home-tab-pane" :itemKey="1">Sign In</CTab>
             <CTab aria-controls="profile-tab-pane" :itemKey="2">Sign Up</CTab>
           </CTabList>
-          <CTabContent>
+          <CTabContent class="form-content">
             <CTabPanel className="py-3" aria-labelledby="home-tab-pane" :itemKey="1">
               <LoginForm/>
             </CTabPanel>
@@ -104,12 +104,50 @@ const tabs = [
 
   .right-panel {
     flex: 1;
-    background-color: #F8F9FA;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-color: #E9ECF5;
     padding: 2rem;
+
+    .form-container {
+      width: 61.5%;
+      height: 430px;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      background-color: #EEEEEE;
+      margin: 30px auto;
+
+      .tabs {
+        height: 100%;
+
+        .form-navigation {
+          padding: 10px 0 0 40px;
+          background-color: #EEEEEE;
+          height: 60px;
+          border: none;
+          box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.09);
+
+          button {
+            color: #464646;
+
+            &.active {
+              border-bottom: 4px solid #4A6AF5;
+              border-radius: 3px;
+            }
+          }
+        }
+
+        .form-content {
+          height: 100%;
+          border-radius: 22px;
+          background-color: #F5F4F5;
+          box-shadow: 1px -1px 4px rgba(0, 0, 0, 0.25);
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          padding-top: 20px;
+        }
+      }
+    }
 
     .social-icons {
       display: flex;
