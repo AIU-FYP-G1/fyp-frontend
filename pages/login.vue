@@ -19,9 +19,11 @@ const tabs = [
 <template>
   <div class="app">
     <div class="left-panel">
-      <!--      <img src="/logo.png" alt="AIU SCI Logo" class="logo">-->
+      <div class="aiu-logo">
+        <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
+      </div>
       <div class="doctor-image">
-        <img src="@/public/images/doctor-login-image.jpg" alt="Doctor"/>
+        <img src="@/public/images/doctor-login-image.svg" alt="Doctor"/>
       </div>
       <p class="copyright">&copy; 2024 AIU SCI. All rights reserved</p>
     </div>
@@ -65,25 +67,32 @@ const tabs = [
     background-color: #4285F4;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
     padding: 2rem;
 
-    .logo {
-      width: 100px;
-      margin-bottom: 2rem;
+    .aiu-logo {
+      width: 70px;
+      margin: 0 0 2rem 3rem;
+
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
     }
 
     .copyright {
-      color: white;
+      color: #464646;
       font-size: 0.8rem;
+      margin: 0 auto 1rem;
+      font-weight: 700;
     }
 
     .doctor-image {
       width: 300px;
-      height: 300px;
-      border-radius: 50%;
+      height: 315px;
+      border-radius: 0 0 50% 50%;
       overflow: hidden;
+      margin: 0 auto;
 
       img {
         width: 100%;
