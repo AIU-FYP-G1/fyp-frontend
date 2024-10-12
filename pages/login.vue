@@ -104,7 +104,7 @@ const tabs = [
 
     .form-container {
       width: 61.5%;
-      height: 480px;
+      height: fit-content;
       border-radius: 22px;
       overflow: hidden;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -139,6 +139,7 @@ const tabs = [
           display: flex;
           align-items: center;
           flex-direction: column;
+          padding: 37px 0 20px;
         }
       }
     }

@@ -54,7 +54,6 @@ const handleSubmit = () => {
 <style lang="scss" scoped>
 .login-form {
   width: 300px;
-  margin-top: 20px;
 
   form {
     display: flex;
