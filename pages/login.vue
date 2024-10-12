@@ -31,27 +31,21 @@ const tabs = [
       <div class="form-container">
         <CTabs :activeItemKey="1">
           <CTabList variant="underline-border" class="form-navigation">
-            <CTab aria-controls="home-tab-pane" :itemKey="1">Sign In</CTab>
-            <CTab aria-controls="profile-tab-pane" :itemKey="2">Sign Up</CTab>
+            <CTab aria-controls="home-tab-pane" :itemKey="1">Sign Up</CTab>
+            <CTab aria-controls="profile-tab-pane" :itemKey="2">Sign In</CTab>
           </CTabList>
           <CTabContent class="form-content">
             <CTabPanel className="py-3" aria-labelledby="home-tab-pane" :itemKey="1">
-              <LoginForm/>
+              <SignupForm/>
             </CTabPanel>
             <CTabPanel className="py-3" aria-labelledby="profile-tab-pane" :itemKey="2">
-              Profile tab content
             </CTabPanel>
           </CTabContent>
         </CTabs>
       </div>
-      <div class="social-icons">
-        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-      </div>
       <div class="contact-info">
-        <p><i class="fas fa-phone"></i> +600000000000</p>
-        <p><i class="fas fa-envelope"></i> mail@gmail.com</p>
+        <p><UIcon name="ic:twotone-phone" class="" /> +600000000000</p>
+        <p><UIcon name="uiw:mail" class="" /> mail@gmail.com</p>
       </div>
     </div>
   </div>
@@ -88,8 +82,8 @@ const tabs = [
     }
 
     .doctor-image {
-      width: 300px;
-      height: 315px;
+      width: 350px;
+      height: 365px;
       border-radius: 0 0 50% 50%;
       overflow: hidden;
       margin: 0 auto;
@@ -109,12 +103,12 @@ const tabs = [
 
     .form-container {
       width: 61.5%;
-      height: 430px;
+      height: 480px;
       border-radius: 22px;
       overflow: hidden;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
       background-color: #EEEEEE;
-      margin: 30px auto;
+      margin: 30px auto -6px;
 
       .tabs {
         height: 100%;
@@ -140,7 +134,7 @@ const tabs = [
           height: 100%;
           border-radius: 22px;
           background-color: #F5F4F5;
-          box-shadow: 1px -1px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
           display: flex;
           align-items: center;
           flex-direction: column;
@@ -149,27 +143,24 @@ const tabs = [
       }
     }
 
-    .social-icons {
+    .contact-info {
+      margin-top: 2.7rem;
+      text-align: center;
       display: flex;
       justify-content: center;
-      margin-top: 2rem;
-
-      a {
-        margin: 0 0.5rem;
-        color: #4285F4;
-        font-size: 1.5rem;
-      }
-    }
-
-    .contact-info {
-      margin-top: 2rem;
-      text-align: center;
 
       p {
         margin: 0.5rem 0;
-        color: #666;
+        color: #464646;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
 
-        i {
+        &:first-child {
+          margin-right: 1.5rem;
+        }
+
+        span {
           margin-right: 0.5rem;
           color: #4285F4;
         }
