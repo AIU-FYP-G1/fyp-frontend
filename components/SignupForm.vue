@@ -72,6 +72,7 @@ const handleSubmit = () => {
 <style lang="scss" scoped>
 .signup-form {
   width: 300px;
+  margin-top: 20px;
 
   form {
     display: flex;

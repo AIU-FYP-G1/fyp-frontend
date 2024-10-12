@@ -1,14 +1,7 @@
 <script setup>
-import {ref} from 'vue';
 import {z} from 'zod';
 
-const activeTab = ref('signup');
-
-const signupSchema = z.object({
-  fullname: z
-      .string()
-      .min(3, {message: "Fullname must be at least 3 characters long"})
-      .max(50, {message: "Fullname must be 50 characters or less"}),
+const loginSchema = z.object({
   email: z
       .string()
       .min(1, {message: "Email is required"})
@@ -19,8 +12,7 @@ const signupSchema = z.object({
       .max(100, {message: "Password cannot be longer than 100 characters"}),
 });
 
-const signupState = reactive({
-  fullname: '',
+const loginState = reactive({
   email: '',
   password: '',
 })
@@ -31,22 +23,12 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="signup-form">
-    <UForm :schema="signupSchema" :state="signupState" @submit="handleSubmit">
-      <div class="input-container">
-        <label for="fullname">Full Name</label>
-        <input
-            v-model="signupState.fullname"
-            type="text"
-            id="fullname"
-            placeholder="Enter your fullname"
-        />
-      </div>
-
+  <div class="login-form">
+    <UForm :schema="loginSchema" :state="loginState" @submit="handleSubmit">
       <div class="input-container">
         <label for="email">Email</label>
         <input
-            v-model="signupState.email"
+            v-model="loginState.email"
             type="text"
             id="email"
             placeholder="Enter your email"
@@ -56,7 +38,7 @@ const handleSubmit = () => {
       <div class="input-container">
         <label for="password">Password</label>
         <input
-            v-model="signupState.password"
+            v-model="loginState.password"
             type="password"
             id="password"
             placeholder="*************"
@@ -65,13 +47,14 @@ const handleSubmit = () => {
 
       <button type="submit">Sign Up</button>
     </UForm>
-    <p class="have-account">I have an account?</p>
+    <p class="not-registered">Not Registered?</p>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.signup-form {
+.login-form {
   width: 300px;
+  margin-top: 20px;
 
   form {
     display: flex;
@@ -122,7 +105,7 @@ const handleSubmit = () => {
     }
   }
 
-  .have-account {
+  .not-registered {
     text-align: center;
     margin-top: 1.9rem;
     color: #E25B8C;

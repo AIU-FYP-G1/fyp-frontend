@@ -39,6 +39,7 @@ const tabs = [
               <SignupForm/>
             </CTabPanel>
             <CTabPanel className="py-3" aria-labelledby="profile-tab-pane" :itemKey="2">
+              <LoginForm />
             </CTabPanel>
           </CTabContent>
         </CTabs>
@@ -138,7 +139,6 @@ const tabs = [
           display: flex;
           align-items: center;
           flex-direction: column;
-          padding-top: 20px;
         }
       }
     }
