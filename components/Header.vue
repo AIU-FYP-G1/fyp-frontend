@@ -51,7 +51,7 @@ const q = ref('')
     align-items: center;
     justify-content: space-between;
     width: 100px;
-    margin-right: 520px;
+    margin-right: 500px;
 
     > div {
       cursor: pointer;
@@ -75,7 +75,7 @@ const q = ref('')
   }
 
   .search-container {
-    margin-right: 20px;
+    margin-right: 35px;
 
     .input-control {
       display: flex;
