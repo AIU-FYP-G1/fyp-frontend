@@ -11,6 +11,14 @@
       <div><NuxtLink to='/dashboard'>home</NuxtLink></div>
       <div><NuxtLink to='/about'>about</NuxtLink></div>
     </div>
+    <div class="search-container">
+      <div class="input-control">
+        <input type="text" placeholder="Search...">
+        <div class="icon-container">
+          <UIcon name="prime:search" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,13 +47,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 110px;
+    width: 100px;
+    margin-right: 500px;
 
     > div {
       cursor: pointer;
       text-transform: uppercase;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13px;
 
       a {
         text-decoration: none;
@@ -58,6 +67,45 @@
         &.router-link-active {
           color: #4A6AF5;
         }
+      }
+    }
+  }
+
+  .search-container {
+    .input-control {
+      display: flex;
+      align-items: center;
+
+      .icon-container {
+        width: 38px;
+        height: 38px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        left: -40px;
+        border-radius: 50%;
+
+        span {
+          font-size: 19px;
+          color: black;
+          position: relative;
+          left: 1px;
+          top: 1px;
+        }
+      }
+
+      input {
+        height: 40px;
+        width: 400px;
+        border-radius: 20px;
+        padding: 5px 20px 5px 17px;
+        outline: 3.2px solid #FFF;
+        font-size: 13px;
+        font-weight: 550;
+        background-color: #EFEFEF;
+        color: #464646;
       }
     }
   }
