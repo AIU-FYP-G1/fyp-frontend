@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const q = ref('')
 </script>
 
 <template>
@@ -13,11 +13,14 @@
     </div>
     <div class="search-container">
       <div class="input-control">
-        <input type="text" placeholder="Search...">
+        <input type="text" placeholder="Search..." v-model="q">
         <div class="icon-container">
           <UIcon name="prime:search" />
         </div>
       </div>
+    </div>
+    <div class="profile-avatar-container">
+      <img src="@/public/images/profile-avatar.jpg" alt="Profile Avatar" class="avatar">
     </div>
   </div>
 </template>
@@ -48,7 +51,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100px;
-    margin-right: 500px;
+    margin-right: 520px;
 
     > div {
       cursor: pointer;
@@ -72,9 +75,12 @@
   }
 
   .search-container {
+    margin-right: 20px;
+
     .input-control {
       display: flex;
       align-items: center;
+      position: relative;
 
       .icon-container {
         width: 38px;
@@ -83,9 +89,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        left: -40px;
+        position: absolute;
+        right: 2px;
         border-radius: 50%;
+        cursor: pointer;
 
         span {
           font-size: 19px;
@@ -107,6 +114,18 @@
         background-color: #EFEFEF;
         color: #464646;
       }
+    }
+  }
+
+  .profile-avatar-container {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }
