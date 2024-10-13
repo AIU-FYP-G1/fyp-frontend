@@ -109,7 +109,7 @@ const q = ref('')
         border-radius: 20px;
         padding: 5px 20px 5px 17px;
         outline: 3.2px solid #FFF;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 550;
         background-color: #EFEFEF;
         color: #464646;
