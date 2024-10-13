@@ -122,6 +122,7 @@ const q = ref('')
     height: 40px;
     cursor: pointer;
     border-radius: 50%;
+    outline: 3.2px solid #FFF;
 
     img {
       width: 100%;
