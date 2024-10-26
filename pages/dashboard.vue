@@ -6,6 +6,7 @@ import Header from "~/components/Header.vue";
 <template>
   <div class="dashboard-container">
     <Header />
+    <Sidebar />
   </div>
 </template>
 
