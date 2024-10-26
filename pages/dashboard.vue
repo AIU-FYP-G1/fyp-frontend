@@ -6,7 +6,10 @@ import Header from "~/components/Header.vue";
 <template>
   <div class="dashboard-container">
     <Header />
-    <Sidebar />
+    <div class="main-content">
+      <Sidebar />
+      <HeartCondition />
+    </div>
   </div>
 </template>
 
@@ -16,5 +19,11 @@ import Header from "~/components/Header.vue";
     height: 100vh;
     background-color: #EFEFEF;
     padding: 25px 40px;
+    overflow: hidden;
+
+    .main-content {
+      display: flex;
+      height: 100%;
+    }
   }
 </style>

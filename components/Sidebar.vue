@@ -30,12 +30,13 @@
 <style scoped lang="scss">
 .mid-navigation-container {
   width: fit-content;
-  height: 57%;
-  margin-top: 15%;
+  margin-top: 6%;
+  margin-right: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  height: 90%;
 
   .router-link-active {
     .icon-container {
