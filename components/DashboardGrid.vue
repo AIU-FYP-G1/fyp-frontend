@@ -98,7 +98,7 @@ const chartOptions = {
 <style scoped lang="scss">
 .dashboard-grid-container {
   width: 100%;
-  margin-top: 35px;
+  margin-top: 30px;
 
   .grid-group {
     display: flex;

@@ -11,6 +11,8 @@
       <div class="heart-container">
         <img src="@/public/images/heart%20image.png" alt="heart">
       </div>
+      <div class="circle first-circle"></div>
+      <div class="second-circle circle"></div>
       <div class="result-box">
         <div class="title">
           <UIcon name="game-icons:heart-beats" /><span>
@@ -38,16 +40,45 @@
   }
 
   .diagnose-result {
+    position: relative;
+    
     .heart-container {
       width: 100%;
       height: 100%;
       position: relative;
       left: -3%;
+      z-index: 2;
 
       img {
-        margin-top: 35px;
-        max-width: 115%;
+        margin-top: 15px;
+        max-width: 121%;
       }
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      outline: 3px solid rgba(255, 255, 255, 0.47);
+      background: rgba(245, 245, 245, 0.5);
+      //box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(80px);
+    }
+
+    .first-circle {
+      top: 70px;
+      left: 15px;
+      width: 280px;
+      height: 280px;
+      z-index: 1;
+    }
+
+    .second-circle {
+      top: 50px;
+      left: -5px;
+      width: 320px;
+      height: 320px;
+      z-index: 0;
     }
 
     .result-box {
@@ -63,6 +94,7 @@
       position: relative;
       top: -90px;
       left: -14px;
+      z-index: 3;
 
       .title {
         color: #242424;
