@@ -26,22 +26,28 @@
 
 <style scoped lang="scss">
 .condition-container {
-  width: 30%;
+  width: 35%;
   margin-top: 1.5%;
+  margin-right: 5%;
 
   > .title {
-    font-size: 60px;
+    font-size: 50px;
     color: #242424;
     font-weight: 530;
-    line-height: 80px;
+    line-height: 60px;
   }
 
   .diagnose-result {
     .heart-container {
-      width: 75%;
-      height: 75%;
+      width: 100%;
+      height: 100%;
       position: relative;
-      left: 7%;
+      left: 2%;
+
+      img {
+        margin-top: 35px;
+        max-width: 112%;
+      }
     }
 
     .result-box {

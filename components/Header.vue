@@ -105,7 +105,7 @@ const q = ref('')
 
       input {
         height: 40px;
-        width: 400px;
+        width: 405px;
         border-radius: 20px;
         padding: 5px 20px 5px 17px;
         outline: 3.2px solid #FFF;

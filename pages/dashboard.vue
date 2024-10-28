@@ -9,6 +9,7 @@ import Header from "~/components/Header.vue";
     <div class="main-content">
       <Sidebar />
       <HeartCondition />
+      <DashboardGrid />
     </div>
   </div>
 </template>
