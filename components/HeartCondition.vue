@@ -42,11 +42,11 @@
       width: 100%;
       height: 100%;
       position: relative;
-      left: 2%;
+      left: -3%;
 
       img {
         margin-top: 35px;
-        max-width: 112%;
+        max-width: 115%;
       }
     }
 
@@ -54,15 +54,15 @@
       background: rgba(234, 234, 234, 0.27);
       border-radius: 16px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(5.7px);
-      -webkit-backdrop-filter: blur(5.7px);
+      backdrop-filter: blur(11.5px);
+      -webkit-backdrop-filter: blur(11.5px);
       width: 160px;
       height: 100px;
       padding: 16px;
       outline: 3.2px solid #FFF;
       position: relative;
-      top: -80px;
-      left: 10px;
+      top: -90px;
+      left: -14px;
 
       .title {
         color: #242424;
