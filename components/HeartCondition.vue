@@ -13,6 +13,12 @@
       </div>
       <div class="circle first-circle"></div>
       <div class="second-circle circle"></div>
+      <div class="dots">
+        <img src="@/public/images/details-dot.png" alt="detail-dot">
+        <img src="@/public/images/details-dot.png" alt="detail-dot">
+        <img src="@/public/images/details-dot.png" alt="detail-dot">
+        <img src="@/public/images/details-dot.png" alt="detail-dot">
+      </div>
       <div class="result-box">
         <div class="title">
           <UIcon name="game-icons:heart-beats" /><span>
@@ -41,6 +47,36 @@
 
   .diagnose-result {
     position: relative;
+
+    .dots {
+      > img {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        z-index: 4;
+        opacity: 0.9;
+
+        &:first-child {
+          top: 40px;
+          left: 175px;
+        }
+
+        &:nth-child(2) {
+          top: 150px;
+          left: 160px;
+        }
+
+        &:nth-child(3) {
+          top: 190px;
+          left: 45px;
+        }
+
+        &:nth-child(4) {
+          top: 270px;
+          left: 220px;
+        }
+      }
+    }
     
     .heart-container {
       width: 100%;
