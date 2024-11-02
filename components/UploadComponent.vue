@@ -24,6 +24,10 @@ const handleFileChange = (event: Event): void => {
     selectedFile.value = file
   }
 }
+
+const handleUpload = (event: Event): void => {
+  console.log('Uploading to backend..')
+}
 </script>
 
 <template>
@@ -51,7 +55,7 @@ const handleFileChange = (event: Event): void => {
           <UIcon name="ei:plus"/>
         </button>
       </div>
-      <button class="upload-confirmation">
+      <button class="upload-confirmation" @click="handleUpload">
         Confirm Upload
         <UIcon name="lets-icons:done-ring-round"/>
       </button>
@@ -139,7 +143,7 @@ const handleFileChange = (event: Event): void => {
     }
   }
 
-  button {
+  > button {
     width: 220px;
     height: 42px;
     background-color: #5F94F5;
