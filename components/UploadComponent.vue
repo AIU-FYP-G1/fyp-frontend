@@ -8,6 +8,23 @@ const isOpen = computed({
   get: () => props.uploadFormIsOpen,
   set: () => emit('toggleUploadForm')
 })
+
+const fileUpload = ref<HTMLInputElement | null>(null)
+const selectedFile = ref<File | null>(null)
+
+const triggerFileUpload = (): void => {
+  fileUpload.value?.click()
+}
+
+const handleFileChange = (event: Event): void => {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+
+  if (file) {
+    selectedFile.value = file
+    console.log('Selected file:', file)
+  }
+}
 </script>
 
 <template>
@@ -21,10 +38,14 @@ const isOpen = computed({
     <div class="popup-container">
       <div class="popup-title">Upload your echocardiogram video</div>
       <div class="popup-subtitle">Please ensure your echocardiogram video is in the right format</div>
-      <div class="upload-space">
-        <div class="helper-text">
+      <div class="upload-space" @click="triggerFileUpload">
+        <input type="file" ref="fileUpload" style="display: none;" accept="video/*" @change="handleFileChange">
+        <div class="helper-text" v-if="!selectedFile">
           <div>Drop your video here!</div>
           <div>Or click</div>
+        </div>
+        <div class="helper-text uploaded-file-name" v-else>
+          <div>{{ selectedFile.name }}</div>
         </div>
         <button>
           Add Video
@@ -90,6 +111,13 @@ const isOpen = computed({
       }
     }
 
+    .uploaded-file-name {
+      > div {
+        font-size: 24px !important;
+        color: #5F94F5 !important;
+      }
+    }
+
     button {
       width: 180px;
       height: 34px;
@@ -128,6 +156,10 @@ const isOpen = computed({
     span {
       font-size: 20px;
       margin-left: 8px;
+    }
+
+    &:hover {
+      background-color: #5281d9;
     }
   }
 }
