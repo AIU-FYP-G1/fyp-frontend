@@ -31,7 +31,7 @@ watchEffect(() => {
       </div>
     </div>
     <div class="navigation-group">
-      <NuxtLink to="/about">
+      <NuxtLink to="/settings">
         <div class="icon-container">
           <UIcon name="ion:settings-outline"/>
         </div>
