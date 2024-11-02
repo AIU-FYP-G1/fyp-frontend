@@ -4,6 +4,9 @@ import {CModal} from "@coreui/vue/dist/esm/components/modal";
 const props = defineProps(['uploadFormIsOpen'])
 const emit = defineEmits(['toggleUploadForm'])
 
+let {$axios} = useNuxtApp()
+const api = $axios()
+
 const isOpen = computed({
   get: () => props.uploadFormIsOpen,
   set: () => emit('toggleUploadForm')
