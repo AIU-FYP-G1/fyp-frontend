@@ -22,7 +22,6 @@ const handleFileChange = (event: Event): void => {
 
   if (file) {
     selectedFile.value = file
-    console.log('Selected file:', file)
   }
 }
 </script>
