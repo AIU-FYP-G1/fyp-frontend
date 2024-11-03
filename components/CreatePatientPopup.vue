@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import {CModal} from "@coreui/vue/dist/esm/components/modal";
 import {z} from "zod";
 import {ref} from "vue";
