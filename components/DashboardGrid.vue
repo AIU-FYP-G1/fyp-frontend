@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import VueApexCharts from "vue3-apexcharts";
+import {usePatient} from "~/stores/patient";
+import BlurOverlay from "~/components/base/BlurOverlay.vue";
 
 const series = [
   {
@@ -30,6 +32,7 @@ const chartOptions = {
   },
 }
 
+const patient = usePatient()
 </script>
 
 <template>
@@ -42,34 +45,37 @@ const chartOptions = {
       <div class="patients-container">
         <div class="title"><UIcon name="material-symbols:circle"></UIcon>My Patients</div>
         <div class="patients">
-          <div class="patient-name">
-            <div class="icon-container">
-              <UIcon name="lucide:users" />
+          <div class="patients-wrapper">
+            <div class="patient-name">
+              <div class="icon-container">
+                <UIcon name="lucide:users" />
+              </div>
+              <span>{{ patient.selectedPatient?.full_name }}</span>
+              <div class="dropdown-icon">
+                <UIcon name="uiw:down" />
+              </div>
             </div>
-            <span>Younes Djelloul</span>
-            <div class="dropdown-icon">
-              <UIcon name="uiw:down" />
+            <div class="history">
+              <div class="history-item">
+                6. Younes Djelloul
+              </div>
+              <div class="history-item">
+                5. Younes Djelloul
+              </div>
+              <div class="history-item">
+                4. Younes Djelloul
+              </div>
+              <div class="history-item">
+                3. Younes Djelloul
+              </div>
+              <div class="history-item">
+                2. Younes Djelloul
+              </div>
+              <div class="history-item">
+                1. Younes Djelloul
+              </div>
             </div>
-          </div>
-          <div class="history">
-            <div class="history-item">
-              6. Younes Djelloul
-            </div>
-            <div class="history-item">
-              5. Younes Djelloul
-            </div>
-            <div class="history-item">
-              4. Younes Djelloul
-            </div>
-            <div class="history-item">
-              3. Younes Djelloul
-            </div>
-            <div class="history-item">
-              2. Younes Djelloul
-            </div>
-            <div class="history-item">
-              1. Younes Djelloul
-            </div>
+            <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show" />
           </div>
           <div class="add-patient">
             <button>
@@ -134,68 +140,72 @@ const chartOptions = {
       flex-direction: column;
       justify-content: space-between;
 
-      .patient-name {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
+      .patients-wrapper {
+        position: relative;
 
-        > span {
-          color: #464646;
-          font-size: 14px;
-          width: 95px;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .icon-container {
-          height: 50px;
-          width: 50px;
-          border-radius: 15px;
-          background-color: #EFEFEF;
-          color: #464646;
-          cursor: pointer;
-          display: inline-flex;
+        .patient-name {
+          display: flex;
           align-items: center;
-          justify-content: center;
-          margin-right: 13px;
+          cursor: pointer;
 
-          span {
-            font-size: 21px;
+          > span {
+            color: #464646;
+            font-size: 14px;
+            width: 95px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .icon-container {
+            height: 50px;
+            width: 50px;
+            border-radius: 15px;
+            background-color: #EFEFEF;
+            color: #464646;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 13px;
+
+            span {
+              font-size: 21px;
+              position: relative;
+              top: 2px;
+            }
+          }
+
+          .dropdown-icon {
             position: relative;
             top: 2px;
+            left: 12px;
           }
         }
 
-        .dropdown-icon {
-          position: relative;
-          top: 2px;
-          left: 12px;
-        }
-      }
+        .history {
+          padding: 15px 20px 15px 17px;
+          display: flex;
+          flex-direction: column;
+          background-color: #EFEFEF;
+          border-radius: 15px;
+          height: 47%;
+          overflow-y: scroll;
 
-      .history {
-        padding: 15px 20px 15px 17px;
-        display: flex;
-        flex-direction: column;
-        background-color: #EFEFEF;
-        border-radius: 15px;
-        height: 47%;
-        overflow-y: scroll;
+          .history-item {
+            margin-bottom: 4px;
+            color: #8F8F8F;
+            font-size: 14px;
+            cursor: pointer;
 
-        .history-item {
-          margin-bottom: 4px;
-          color: #8F8F8F;
-          font-size: 14px;
-          cursor: pointer;
+            &:last-child {
+              margin-bottom: 0;
+            }
 
-          &:last-child {
-            margin-bottom: 0;
-          }
-
-          &:first-child {
-            color: #4A6AF5;
-            font-weight: 600;
+            &:first-child {
+              color: #4A6AF5;
+              font-weight: 600;
+            }
           }
         }
       }

@@ -13,7 +13,18 @@ export const useAuth = defineStore('auth', () => {
     refresh_token.value = tokens.refresh
   }
 
+  const logout = () => {
+    const accessTokenCookie = useCookie('access_token');
+    const refreshTokenCookie = useCookie('refresh_token');
+
+    accessTokenCookie.value = null;
+    refreshTokenCookie.value = null;
+
+    navigateTo('/login');
+  }
+
   return {
-    storeTokens
+    storeTokens,
+    logout,
   }
 })

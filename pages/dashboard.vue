@@ -4,6 +4,13 @@ definePageMeta({
 })
 
 import Header from "~/components/Header.vue";
+import {usePatient} from "~/stores/patient";
+
+const patient = usePatient()
+
+onMounted(async () => {
+  await patient.fetchPatients()
+})
 </script>
 
 <template>
