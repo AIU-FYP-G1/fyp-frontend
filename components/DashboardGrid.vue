@@ -2,7 +2,6 @@
 import VueApexCharts from "vue3-apexcharts";
 import {usePatient} from "~/stores/patient";
 import BlurOverlay from "~/components/base/BlurOverlay.vue";
-import UploadComponent from "~/components/UploadComponent.vue";
 
 const series = [
   {
@@ -41,28 +40,34 @@ const createPatientFormIsOpen = ref(false)
 <template>
   <div class="dashboard-grid-container">
     <CreatePatientPopup
-      :create-patient-form-is-open="createPatientFormIsOpen"
-      @toggle-create-patient-form="createPatientFormIsOpen = false"
+        :create-patient-form-is-open="createPatientFormIsOpen"
+        @toggle-create-patient-form="createPatientFormIsOpen = false"
     />
     <div class="grid-group">
       <div class="past-predictions">
-        <div class="title"><UIcon name="material-symbols:circle"></UIcon>Potential Interpretation</div>
+        <div class="title">
+          <UIcon name="material-symbols:circle"></UIcon>
+          Potential Interpretation
+        </div>
         <div class="chart-wrapper">
-          <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show" style="height: 92%" />
+          <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show" style="height: 92%"/>
           <VueApexCharts type="area" height="280" :options="chartOptions" :series="series"></VueApexCharts>
         </div>
       </div>
       <div class="patients-container">
-        <div class="title"><UIcon name="material-symbols:circle"></UIcon>My Patients</div>
+        <div class="title">
+          <UIcon name="material-symbols:circle"></UIcon>
+          My Patients
+        </div>
         <div class="patients">
           <div class="patients-wrapper">
             <div class="patient-name">
               <div class="icon-container">
-                <UIcon name="lucide:users" />
+                <UIcon name="lucide:users"/>
               </div>
               <span>{{ patient.selectedPatient?.full_name }}</span>
               <div class="dropdown-icon">
-                <UIcon name="uiw:down" />
+                <UIcon name="uiw:down"/>
               </div>
             </div>
             <div class="history">
@@ -85,12 +90,12 @@ const createPatientFormIsOpen = ref(false)
                 1. Younes Djelloul
               </div>
             </div>
-            <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show" />
+            <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show"/>
           </div>
           <div class="add-patient">
             <button @click="createPatientFormIsOpen = true">
               Add Patient
-              <UIcon name="solar:user-plus-line-duotone" />
+              <UIcon name="solar:user-plus-line-duotone"/>
             </button>
           </div>
         </div>
@@ -98,9 +103,12 @@ const createPatientFormIsOpen = ref(false)
     </div>
     <div class="grid-group">
       <div class="interpretation">
-        <div class="title"><UIcon name="material-symbols:circle"></UIcon>Potential Interpretation</div>
+        <div class="title">
+          <UIcon name="material-symbols:circle"></UIcon>
+          Potential Interpretation
+        </div>
         <div class="content">
-          <BlurOverlay v-if="!patient.selectedPatient" message="No interpretation yet!" />
+          <BlurOverlay v-if="!patient.selectedPatient" message="No interpretation yet!"/>
           <ul>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
@@ -262,7 +270,7 @@ const createPatientFormIsOpen = ref(false)
   .interpretation {
     width: 100%;
     height: 240px;
-    
+
     .content {
       border: 1px solid #EFEFEF;
       outline: 3.5px solid #FFF;
