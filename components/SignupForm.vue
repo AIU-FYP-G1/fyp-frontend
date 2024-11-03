@@ -1,14 +1,18 @@
 <script setup>
 import {ref} from 'vue';
 import {z} from 'zod';
+import {toast} from 'vue3-toastify';
 
-const activeTab = ref('signup');
+const emit = defineEmits(['switchTabs'])
+
+let {$axios} = useNuxtApp()
+const api = $axios()
 
 const signupSchema = z.object({
-  fullname: z
+  full_name: z
       .string()
-      .min(3, {message: "Fullname must be at least 3 characters long"})
-      .max(50, {message: "Fullname must be 50 characters or less"}),
+      .min(3, {message: "full_name must be at least 3 characters long"})
+      .max(50, {message: "full_name must be 50 characters or less"}),
   email: z
       .string()
       .min(1, {message: "Email is required"})
@@ -20,27 +24,76 @@ const signupSchema = z.object({
 });
 
 const signupState = reactive({
-  fullname: '',
+  full_name: '',
   email: '',
   password: '',
 })
 
-const handleSubmit = () => {
-  console.log('Form submitted');
+const isSubmitting = ref(false)
+let errors = reactive({
+  full_name: '',
+  email: '',
+  password: '',
+});
+
+const validateField = (field) => {
+  const result = signupSchema.shape[field].safeParse(signupState[field]);
+  errors[field] = result.success ? '' : result.error.errors[0].message;
+};
+
+const handleSubmit = async () => {
+  try {
+    isSubmitting.value = true
+
+    errors.full_name = '';
+    errors.email = '';
+    errors.password = '';
+
+    const result = signupSchema.safeParse(signupState);
+    if (!result.success) {
+      result.error.errors.forEach((err) => {
+        errors[err.path[0]] = err.message;
+      });
+      return;
+    }
+
+    await api.post('/signup/', signupState)
+    toast.success("Account created successfully", {
+      bodyClassName: 'toast-body'
+    });
+    emit('switchTabs')
+
+  } catch (error) {
+    const {response: {data}} = error
+
+    for (const [path, messages] of Object.entries(data)) {
+      errors[path] = messages[0]
+    }
+
+    toast.error("An error occurred.", {
+      bodyClassName: 'toast-body'
+    });
+  } finally {
+    isSubmitting.value = false
+  }
 };
 </script>
 
 <template>
   <div class="signup-form">
-    <UForm :schema="signupSchema" :state="signupState" @submit="handleSubmit">
+    <UForm :schema="signupSchema" :state="signupState">
       <div class="input-container">
-        <label for="fullname">Full Name</label>
+        <label for="full_name">Full Name</label>
         <input
-            v-model="signupState.fullname"
+            v-model="signupState.full_name"
             type="text"
-            id="fullname"
-            placeholder="Enter your fullname"
+            id="full_name"
+            placeholder="Enter your full_name"
+            @blur="validateField('full_name')"
         />
+        <transition name="scale-fade">
+          <div v-if="errors.full_name" class="error">{{ errors.full_name }}</div>
+        </transition>
       </div>
 
       <div class="input-container">
@@ -50,7 +103,11 @@ const handleSubmit = () => {
             type="text"
             id="email"
             placeholder="Enter your email"
+            @blur="validateField('email')"
         />
+        <transition name="scale-fade">
+          <div v-if="errors.email" class="error">{{ errors.email }}</div>
+        </transition>
       </div>
 
       <div class="input-container">
@@ -60,12 +117,16 @@ const handleSubmit = () => {
             type="password"
             id="password"
             placeholder="*************"
+            @blur="validateField('password')"
         />
+        <transition name="scale-fade">
+          <div v-if="errors.password" class="error">{{ errors.password }}</div>
+        </transition>
       </div>
 
-      <button type="submit">Sign Up</button>
+      <UButton :loading="isSubmitting" type="submit" @click="handleSubmit">Sign Up</UButton>
     </UForm>
-    <p class="have-account">I have an account?</p>
+    <p class="have-account" @click="emit('switchTabs')">I have an account?</p>
   </div>
 </template>
 
@@ -80,12 +141,20 @@ const handleSubmit = () => {
     margin: 0 auto;
 
     .input-container {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.7rem;
       display: flex;
       flex-direction: column;
+      position: relative;
 
       &:last-child {
         margin-bottom: 0;
+      }
+
+      .error {
+        color: #FF4C4C;
+        font-size: 12px;
+        position: absolute;
+        bottom: -19px;
       }
 
       label {
@@ -112,13 +181,14 @@ const handleSubmit = () => {
     button {
       background-color: #4A6AF5;
       color: white;
-      padding: 0.5rem;
+      padding: 0.57rem;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-size: 14px;
       font-weight: 600;
       margin-top: 10px;
+      justify-content: center;
     }
   }
 

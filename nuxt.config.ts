@@ -13,4 +13,9 @@ export default defineNuxtConfig({
       ]
     }
   },
+  runtimeConfig: {
+    public: {
+      isDev: process.env.NODE_ENV === 'development',
+    },
+  },
 })

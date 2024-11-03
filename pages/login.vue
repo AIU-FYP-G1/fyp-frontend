@@ -1,18 +1,7 @@
 <script setup>
 import {CTab, CTabContent, CTabList, CTabPanel, CTabs} from "@coreui/vue/dist/esm/components/tabs/index.js";
 
-const tabs = [
-  {
-    label: 'Sign Up',
-    icon: 'fluent:table-48-filled',
-    slot: 'sign-up',
-  },
-  {
-    label: 'Sign In',
-    icon: 'gridicons:stats',
-    slot: 'sign-in',
-  }
-]
+const activeTab = ref(1)
 
 </script>
 
@@ -29,17 +18,17 @@ const tabs = [
     </div>
     <div class="right-panel">
       <div class="form-container">
-        <CTabs :activeItemKey="1">
+        <CTabs :activeItemKey=activeTab>
           <CTabList variant="underline-border" class="form-navigation">
             <CTab aria-controls="home-tab-pane" :itemKey="1">Sign Up</CTab>
             <CTab aria-controls="profile-tab-pane" :itemKey="2">Sign In</CTab>
           </CTabList>
           <CTabContent class="form-content">
-            <CTabPanel className="py-3" aria-labelledby="home-tab-pane" :itemKey="1">
-              <SignupForm/>
+            <CTabPanel aria-labelledby="home-tab-pane" :itemKey="1">
+              <SignupForm @switch-tabs="activeTab=2"/>
             </CTabPanel>
-            <CTabPanel className="py-3" aria-labelledby="profile-tab-pane" :itemKey="2">
-              <LoginForm />
+            <CTabPanel aria-labelledby="profile-tab-pane" :itemKey="2">
+              <LoginForm @switch-tabs="activeTab=1"/>
             </CTabPanel>
           </CTabContent>
         </CTabs>
