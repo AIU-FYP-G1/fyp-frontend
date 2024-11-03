@@ -1,4 +1,4 @@
-import type { AxiosInstance, AxiosError } from "axios";
+import type {AxiosInstance, AxiosError} from "axios";
 import axios from "axios";
 import {useAuth} from "~/stores/auth";
 
@@ -53,19 +53,17 @@ function constructApi(baseUrl: string): AxiosInstance {
 
         if (isRefreshing) {
           return new Promise((resolve, reject) => {
-            failedQueue.push({ resolve, reject });
+            failedQueue.push({resolve, reject});
           })
-          .then(() => api(originalRequest))
-          .catch((err) => Promise.reject(err));
+              .then(() => api(originalRequest))
+              .catch((err) => Promise.reject(err));
         }
 
         isRefreshing = true;
 
         try {
           const refreshToken = useCookie('refresh_token').value;
-          const response = await api.post('/token/refresh/', { refresh: refreshToken });
-
-          console.log(response);
+          const response = await api.post('/token/refresh/', {refresh: refreshToken});
 
           const accessTokenCookie = useCookie('access_token');
           const refreshTokenCookie = useCookie('refresh_token');
