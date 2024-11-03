@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+})
 
 import Header from "~/components/Header.vue";
 </script>

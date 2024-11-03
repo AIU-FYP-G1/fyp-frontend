@@ -1,7 +1,11 @@
 <script setup>
+definePageMeta({
+  middleware: 'auth'
+})
+
 import {CTab, CTabContent, CTabList, CTabPanel, CTabs} from "@coreui/vue/dist/esm/components/tabs/index.js";
 
-const activeTab = ref(1)
+const activeTab = ref(2)
 
 </script>
 

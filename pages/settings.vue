@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: 'auth'
+})
+
 const activeTab = ref('general')
 const avatarUpload = ref<HTMLInputElement | null>(null)
 const selectedAvatar = ref<File | null>(null)
