@@ -1,5 +1,9 @@
 <script setup lang="ts">
 
+import BlurOverlay from "~/components/base/BlurOverlay.vue";
+import {usePatient} from "~/stores/patient";
+
+const patient = usePatient()
 </script>
 
 <template>
@@ -20,8 +24,10 @@
         <img src="@/public/images/details-dot.png" alt="detail-dot">
       </div>
       <div class="result-box">
+        <BlurOverlay v-if="!patient.selectedPatient" message="No result yet!"/>
         <div class="title">
-          <UIcon name="game-icons:heart-beats" /><span>
+          <UIcon name="game-icons:heart-beats"/>
+          <span>
           Predicted EF</span>
         </div>
         <div class="result">
@@ -77,7 +83,7 @@
         }
       }
     }
-    
+
     .heart-container {
       width: 100%;
       height: 100%;

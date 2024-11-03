@@ -65,6 +65,8 @@ function constructApi(baseUrl: string): AxiosInstance {
           const refreshToken = useCookie('refresh_token').value;
           const response = await api.post('/refresh/', { refresh_token: refreshToken });
 
+          console.log(response);
+
           const accessTokenCookie = useCookie('access_token');
           const refreshTokenCookie = useCookie('refresh_token');
 

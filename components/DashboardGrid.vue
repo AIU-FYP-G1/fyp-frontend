@@ -40,7 +40,10 @@ const patient = usePatient()
     <div class="grid-group">
       <div class="past-predictions">
         <div class="title"><UIcon name="material-symbols:circle"></UIcon>Potential Interpretation</div>
-        <VueApexCharts type="area" height="280" :options="chartOptions" :series="series"></VueApexCharts>
+        <div class="chart-wrapper">
+          <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show" style="height: 92%" />
+          <VueApexCharts type="area" height="280" :options="chartOptions" :series="series"></VueApexCharts>
+        </div>
       </div>
       <div class="patients-container">
         <div class="title"><UIcon name="material-symbols:circle"></UIcon>My Patients</div>
@@ -90,6 +93,7 @@ const patient = usePatient()
       <div class="interpretation">
         <div class="title"><UIcon name="material-symbols:circle"></UIcon>Potential Interpretation</div>
         <div class="content">
+          <BlurOverlay v-if="!patient.selectedPatient" message="No interpretation yet!" />
           <ul>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
@@ -109,6 +113,8 @@ const patient = usePatient()
   .grid-group {
     display: flex;
     width: 97%;
+    height: 347px;
+    overflow-y: hidden;
     justify-content: space-between;
     flex-direction: row;
 
@@ -128,7 +134,7 @@ const patient = usePatient()
   }
 
   .patients-container {
-    height: 280px;
+    height: 81%;
     width: 210px;
 
     .patients {
@@ -142,6 +148,7 @@ const patient = usePatient()
 
       .patients-wrapper {
         position: relative;
+        height: 100%;
 
         .patient-name {
           display: flex;
@@ -235,8 +242,13 @@ const patient = usePatient()
   }
 
   .past-predictions {
-    .vue-apexcharts {
+    .chart-wrapper {
+      position: relative;
       width: 525px;
+
+      .vue-apexcharts {
+        width: 100%;
+      }
     }
   }
 
@@ -250,6 +262,7 @@ const patient = usePatient()
       background-color: #EFEFEF;
       border-radius: 20px;
       padding: 15px 20px 0;
+      position: relative;
 
       ul {
         li {
