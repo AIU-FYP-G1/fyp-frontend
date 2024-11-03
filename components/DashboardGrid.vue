@@ -2,6 +2,7 @@
 import VueApexCharts from "vue3-apexcharts";
 import {usePatient} from "~/stores/patient";
 import BlurOverlay from "~/components/base/BlurOverlay.vue";
+import UploadComponent from "~/components/UploadComponent.vue";
 
 const series = [
   {
@@ -33,10 +34,16 @@ const chartOptions = {
 }
 
 const patient = usePatient()
+
+const createPatientFormIsOpen = ref(false)
 </script>
 
 <template>
   <div class="dashboard-grid-container">
+    <CreatePatientPopup
+      :create-patient-form-is-open="createPatientFormIsOpen"
+      @toggle-create-patient-form="createPatientFormIsOpen = false"
+    />
     <div class="grid-group">
       <div class="past-predictions">
         <div class="title"><UIcon name="material-symbols:circle"></UIcon>Potential Interpretation</div>
@@ -81,7 +88,7 @@ const patient = usePatient()
             <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show" />
           </div>
           <div class="add-patient">
-            <button>
+            <button @click="createPatientFormIsOpen = true">
               Add Patient
               <UIcon name="solar:user-plus-line-duotone" />
             </button>

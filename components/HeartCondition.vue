@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import BlurOverlay from "~/components/base/BlurOverlay.vue";
 import {usePatient} from "~/stores/patient";
 
