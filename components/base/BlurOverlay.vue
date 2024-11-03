@@ -32,6 +32,7 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 16px;
+  border-radius: 17px;
 }
 
 .overlay-text {
