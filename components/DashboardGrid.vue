@@ -149,26 +149,33 @@ const createPatientFormIsOpen = ref(false)
   }
 
   .patients-container {
-    height: 81%;
+    height: 100%;
     width: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 
     .patients {
       background-color: #FFF;
       border-radius: 15px;
-      height: 97%;
       padding: 4px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      height: 80%;
 
       .patients-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         position: relative;
-        height: 100%;
+        height: 72%;
 
         .patient-name {
           display: flex;
           align-items: center;
           cursor: pointer;
+          margin-bottom: 30px;
 
           > span {
             color: #464646;
@@ -211,7 +218,7 @@ const createPatientFormIsOpen = ref(false)
           flex-direction: column;
           background-color: #EFEFEF;
           border-radius: 15px;
-          height: 47%;
+          height: 61%;
           overflow-y: scroll;
 
           .history-item {
