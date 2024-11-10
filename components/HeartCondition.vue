@@ -2,7 +2,7 @@
 import BlurOverlay from "~/components/base/BlurOverlay.vue";
 import {usePatient} from "~/stores/patient";
 
-const patient = usePatient()
+const patients = usePatient()
 </script>
 
 <template>
@@ -23,14 +23,14 @@ const patient = usePatient()
         <img src="@/public/images/details-dot.png" alt="detail-dot">
       </div>
       <div class="result-box">
-        <BlurOverlay v-if="!patient.selectedPatient" message="No result yet!"/>
+        <BlurOverlay v-if="patients.noDataToDisplay" message="No result yet!"/>
         <div class="title">
           <UIcon name="game-icons:heart-beats"/>
           <span>
           Predicted EF</span>
         </div>
         <div class="result">
-          79%
+          {{ patients.selectedDiagnosis?.ejection_fraction }}%
         </div>
       </div>
     </div>

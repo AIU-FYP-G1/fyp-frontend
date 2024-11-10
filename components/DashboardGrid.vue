@@ -32,7 +32,7 @@ const chartOptions = {
   },
 }
 
-const patient = usePatient()
+const patients = usePatient()
 
 const createPatientFormIsOpen = ref(false)
 </script>
@@ -50,7 +50,7 @@ const createPatientFormIsOpen = ref(false)
           Potential Interpretation
         </div>
         <div class="chart-wrapper">
-          <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show" style="height: 92%"/>
+          <BlurOverlay v-if="patients.noDataToDisplay" message="No past predictions yet!" style="height: 92%"/>
           <VueApexCharts type="area" height="280" :options="chartOptions" :series="series"></VueApexCharts>
         </div>
       </div>
@@ -65,32 +65,20 @@ const createPatientFormIsOpen = ref(false)
               <div class="icon-container">
                 <UIcon name="lucide:users"/>
               </div>
-              <span>{{ patient.selectedPatient?.full_name }}</span>
+              <span>{{ patients.selectedPatient?.full_name }}</span>
               <div class="dropdown-icon">
                 <UIcon name="uiw:down"/>
               </div>
             </div>
             <div class="history">
-              <div class="history-item">
-                6. Younes Djelloul
+              <div class="no-diagnoses-placeholder" v-if="patients.selectedPatientDiagnoses.length <= 0">
+                No diagnoses made yet
               </div>
-              <div class="history-item">
-                5. Younes Djelloul
-              </div>
-              <div class="history-item">
-                4. Younes Djelloul
-              </div>
-              <div class="history-item">
-                3. Younes Djelloul
-              </div>
-              <div class="history-item">
-                2. Younes Djelloul
-              </div>
-              <div class="history-item">
-                1. Younes Djelloul
+              <div class="history-item" v-else v-for="diagnosis in patients.selectedPatientDiagnoses" :key="diagnosis.id" @click="">
+                {{ diagnosis.id }}. {{ diagnosis.diagnosis_date }}
               </div>
             </div>
-            <BlurOverlay v-if="!patient.selectedPatient" message="No patients to show"/>
+            <BlurOverlay v-if="!patients.selectedPatient" message="No patients yet!"/>
           </div>
           <div class="add-patient">
             <button @click="createPatientFormIsOpen = true">
@@ -108,7 +96,7 @@ const createPatientFormIsOpen = ref(false)
           Potential Interpretation
         </div>
         <div class="content">
-          <BlurOverlay v-if="!patient.selectedPatient" message="No interpretation yet!"/>
+          <BlurOverlay v-if="patients.noDataToDisplay" message="No interpretation yet!"/>
           <ul>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
@@ -220,11 +208,12 @@ const createPatientFormIsOpen = ref(false)
           border-radius: 15px;
           height: 61%;
           overflow-y: scroll;
+          justify-content: flex-start;
 
           .history-item {
             margin-bottom: 4px;
             color: #8F8F8F;
-            font-size: 14px;
+            font-size: 12.5px;
             cursor: pointer;
 
             &:last-child {
@@ -235,6 +224,11 @@ const createPatientFormIsOpen = ref(false)
               color: #4A6AF5;
               font-weight: 600;
             }
+          }
+
+          .no-diagnoses-placeholder {
+            font-family: 'Jost', sans-serif;
+            font-size: 14px;
           }
         }
       }
@@ -279,19 +273,26 @@ const createPatientFormIsOpen = ref(false)
     height: 240px;
 
     .content {
-      border: 1px solid #EFEFEF;
       outline: 3.5px solid #FFF;
-      background-color: #EFEFEF;
       border-radius: 20px;
-      padding: 15px 20px 0;
+      padding: 15px 20px;
+      width: 98%;
+      margin: 0 auto;
       position: relative;
 
       ul {
+        width: 90%;
+        margin-bottom: 0;
+
         li {
           margin-bottom: 2px;
           font-weight: 550;
           font-size: 14px;
           color: #464646;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
 
           span {
             position: relative;

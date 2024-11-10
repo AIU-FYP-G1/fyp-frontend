@@ -33,6 +33,7 @@ export default {
   justify-content: center;
   gap: 16px;
   border-radius: 17px;
+  font-family: 'Jost', sans-serif;
 }
 
 .overlay-text {

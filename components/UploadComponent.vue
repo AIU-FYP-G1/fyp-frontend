@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {CModal} from "@coreui/vue/dist/esm/components/modal";
+import {usePatient} from "~/stores/patient";
+import {toast} from "vue3-toastify";
 
 const props = defineProps(['uploadFormIsOpen'])
 const emit = defineEmits(['toggleUploadForm'])
 
 let {$axios} = useNuxtApp()
-const api = $axios()
+const patients = usePatient()
 
 const isOpen = computed({
   get: () => props.uploadFormIsOpen,
@@ -28,8 +30,38 @@ const handleFileChange = (event: Event): void => {
   }
 }
 
-const handleUpload = (event: Event): void => {
-  console.log('Uploading to backend..')
+const isSubmitting = ref(false)
+
+const handleUpload = async () => {
+  isSubmitting.value = true
+
+  if (!selectedFile.value) {
+    toast.error("A valid echocardiogram file must be uploaded!", {
+      bodyClassName: 'toast-body'
+    });
+    return
+  }
+
+  const formData = {
+    file: selectedFile.value,
+  };
+
+  try {
+    await patients.createNewDiagnose(formData)
+    toast.success("Video uploaded successfully", {
+      bodyClassName: 'toast-body'
+    });
+    setTimeout(() => {
+      emit('toggleUploadForm')
+    }, 900)
+  } catch (error) {
+    toast.error("Something went wrong! Please try again", {
+      bodyClassName: 'toast-body'
+    });
+    console.error(error)
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -58,10 +90,10 @@ const handleUpload = (event: Event): void => {
           <UIcon name="ei:plus"/>
         </button>
       </div>
-      <button class="upload-confirmation" @click="handleUpload">
+      <UButton class="upload-confirmation" @click="handleUpload" :loading="isSubmitting">
         Confirm Upload
         <UIcon name="lets-icons:done-ring-round"/>
-      </button>
+      </UButton>
     </div>
   </CModal>
 </template>

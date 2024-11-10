@@ -89,7 +89,7 @@ const handleSubmit = async () => {
             type="text"
             id="full_name"
             placeholder="Enter your full_name"
-            @blur="validateField('full_name')"
+            @keyup="validateField('full_name')"
         />
         <transition name="scale-fade">
           <div v-if="errors.full_name" class="error">{{ errors.full_name }}</div>
@@ -103,7 +103,7 @@ const handleSubmit = async () => {
             type="text"
             id="email"
             placeholder="Enter your email"
-            @blur="validateField('email')"
+            @keyup="validateField('email')"
         />
         <transition name="scale-fade">
           <div v-if="errors.email" class="error">{{ errors.email }}</div>
@@ -117,7 +117,7 @@ const handleSubmit = async () => {
             type="password"
             id="password"
             placeholder="*************"
-            @blur="validateField('password')"
+            @keyup="validateField('password')"
         />
         <transition name="scale-fade">
           <div v-if="errors.password" class="error">{{ errors.password }}</div>

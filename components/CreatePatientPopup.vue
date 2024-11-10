@@ -22,7 +22,8 @@ const patientSchema = z.object({
       .max(50, {message: "full_name must be 50 characters or less"}),
   gender: z.enum(["M", "F"], {
     required_error: "Please select a gender.",
-    invalid_type_error: "Invalid selection."}),
+    invalid_type_error: "Invalid selection."
+  }),
 });
 
 const patientState = reactive({
@@ -36,7 +37,7 @@ let errors = reactive({
 });
 
 const validateField = (field) => {
-  const result = patientSchema.shape[field].safeParse(patientSchema[field]);
+  const result = patientSchema.shape[field].safeParse(patientState[field]);
   errors[field] = result.success ? '' : result.error.errors[0].message;
 };
 
@@ -89,55 +90,56 @@ const handleCreation = async () => {
       size="md"
   >
     <div class="popup-container">
-      <div class="popup-title">Create a new patient</div>
-      <div class="popup-subtitle">Fill in the details to register a new patient profile.</div>
+      <div class="popup-title">Create a new patients</div>
+      <div class="popup-subtitle">Fill in the details to register a new patients profile.</div>
+      <UForm :schema="patientSchema" :state="patientState">
+        <div class="input-container">
+          <label for="full_name">Full Name</label>
+          <input
+              v-model="patientState.full_name"
+              type="text"
+              id="full_name"
+              placeholder="The patients full_name"
+              @keyup="validateField('full_name')"
+          />
+          <transition name="scale-fade">
+            <div v-if="errors.full_name" class="error">{{ errors.full_name }}</div>
+          </transition>
+        </div>
 
-      <div class="input-container">
-        <label for="full_name">Full Name</label>
-        <input
-            v-model="patientState.full_name"
-            type="text"
-            id="full_name"
-            placeholder="The patient full_name"
-            @blur="validateField('full_name')"
-        />
-        <transition name="scale-fade">
-          <div v-if="errors.full_name" class="error">{{ errors.full_name }}</div>
-        </transition>
-      </div>
-
-      <div class="input-container">
-        <label for="gender">Gender</label>
-        <div class="gender-container">
-          <div class="gender">
-            <input
-                v-model="patientState.gender"
-                type="radio"
-                id="male"
-                name="gender"
-                value="M"
-                @blur="validateField('gender')"
-            />
-            <label for="male">Male</label>
-          </div>
-          <div class="gender">
-            <input
-                v-model="patientState.gender"
-                type="radio"
-                id="female"
-                name="gender"
-                value="F"
-                @blur="validateField('gender')"
-            />
-            <label for="female">Female</label>
+        <div class="input-container">
+          <label for="gender">Gender</label>
+          <div class="gender-container">
+            <div class="gender">
+              <input
+                  v-model="patientState.gender"
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  value="M"
+                  @blur="validateField('gender')"
+              />
+              <label for="male">Male</label>
+            </div>
+            <div class="gender">
+              <input
+                  v-model="patientState.gender"
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  value="F"
+                  @blur="validateField('gender')"
+              />
+              <label for="female">Female</label>
+            </div>
           </div>
         </div>
-      </div>
 
-      <button class="upload-confirmation" @click="handleCreation">
-        Create Patient
-        <UIcon name="lets-icons:done-ring-round"/>
-      </button>
+        <button class="create-patient-confirmation" @click="handleCreation">
+          Create Patient
+          <UIcon name="lets-icons:done-ring-round"/>
+        </button>
+      </UForm>
     </div>
   </CModal>
 </template>
@@ -225,7 +227,7 @@ const handleCreation = async () => {
     }
   }
 
-  > button {
+  .create-patient-confirmation {
     width: 220px;
     height: 42px;
     background-color: #5F94F5;
