@@ -87,7 +87,6 @@ const handleCreation = async () => {
       :visible="isOpen"
       @close="emit('toggleCreatePatientForm')"
       aria-labelledby="VerticallyCenteredExample"
-      size="md"
   >
     <div class="popup-container">
       <div class="popup-title">Create a new patients</div>
