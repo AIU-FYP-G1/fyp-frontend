@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BlurOverlay from "~/components/base/BlurOverlay.vue";
+
 definePageMeta({
   middleware: 'auth'
 })
@@ -8,15 +10,19 @@ import {usePatient} from "~/stores/patient";
 
 const patient = usePatient()
 
+const isLoading = ref(true)
+
 onMounted(async () => {
   await patient.fetchPatients()
+  isLoading.value = false
 })
 </script>
 
 <template>
   <div class="dashboard-container">
     <Header />
-    <div class="main-content">
+    <blur-overlay v-if="isLoading" />
+    <div class="main-content" v-else>
       <Sidebar />
       <HeartCondition />
       <DashboardGrid />
@@ -31,6 +37,7 @@ onMounted(async () => {
     background-color: #EFEFEF;
     padding: 25px 40px;
     overflow: hidden;
+    position: relative;
 
     .main-content {
       display: flex;
