@@ -11,11 +11,11 @@ const patients = usePatient()
       Heart<br>Conditions
     </div>
     <div class="diagnose-result">
-      <div class="heart-container">
+      <div class="heart-container pulse">
         <img src="@/public/images/heart%20image.png" alt="heart">
       </div>
-      <div class="circle first-circle"></div>
-      <div class="second-circle circle"></div>
+      <div class="circle first-circle pulse"></div>
+      <div class="second-circle circle pulse"></div>
       <div class="dots">
         <img src="@/public/images/details-dot.png" alt="detail-dot">
         <img src="@/public/images/details-dot.png" alt="detail-dot">
@@ -38,6 +38,19 @@ const patients = usePatient()
 </template>
 
 <style scoped lang="scss">
+@keyframes pulseOpacity {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.pulse {
+  animation: pulseOpacity 2s ease-in-out infinite;
+}
+
 .condition-container {
   width: 35%;
   margin-top: 1.5%;

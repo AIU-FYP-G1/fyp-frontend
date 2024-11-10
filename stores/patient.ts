@@ -12,7 +12,7 @@ interface Patient {
 
 interface PatientDiagnosis {
   id: number
-  diagnosis_date: Date
+  diagnosis_date: string
   notes: string
   ejection_fraction: number
 }
@@ -39,6 +39,7 @@ export const usePatient = defineStore('patient', () => {
   const fetchPatients = async () => {
     const {data} = await api.get('/patients/')
     patients.value = data
+    await fetchSelectedPatientDiagnoses()
   }
 
   const fetchSelectedPatientDiagnoses = async () => {
@@ -48,7 +49,7 @@ export const usePatient = defineStore('patient', () => {
     }
   }
 
-  watch(selectedPatient, fetchSelectedPatientDiagnoses, {immediate: true})
+  watch(selectedPatient, fetchSelectedPatientDiagnoses)
 
   const refreshPatientDiagnoses = async () => {
     await fetchSelectedPatientDiagnoses()
@@ -59,7 +60,7 @@ export const usePatient = defineStore('patient', () => {
       const payload = new FormData();
       payload.append('echocardiogram', data.file);
 
-      const { data: responseData } = await api.post(`/patients/${selectedPatient.value?.id}/diagnoses/`, payload)
+      const {data: responseData} = await api.post(`/patients/${selectedPatient.value?.id}/diagnoses/`, payload)
       await refreshPatientDiagnoses()
       return responseData
     } catch (error) {
@@ -67,14 +68,62 @@ export const usePatient = defineStore('patient', () => {
     }
   }
 
+  const chartEjectionFractions = [
+    {
+      name: 'Ejection Fraction Over Time',
+      data: [0]
+    },
+  ]
+
+  const pastPredictionsChartOptions = {
+    chart: {
+      height: 350,
+      type: 'area'
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    xaxis: {
+      type: 'datetime',
+      categories: ["2018-09-19T00:00:00.000Z"],
+      labels: {
+        format: 'MM/dd'
+      },
+    },
+    tooltip: {
+      x: {
+        format: 'dd MMM yyyy HH:mm'
+      }
+    },
+  }
+
+  const formatPatientPastPredictions = watchEffect(() => {
+    const ejectionFractions: number[] = []
+    const formattedDates: string[] = []
+
+    selectedPatientDiagnoses.value.forEach((diagnosis) => {
+      ejectionFractions.push(diagnosis.ejection_fraction)
+      formattedDates.push(diagnosis.diagnosis_date)
+    })
+
+    chartEjectionFractions[0].data = ejectionFractions
+    pastPredictionsChartOptions.xaxis.categories = formattedDates
+  })
+
   return {
     fetchPatients,
     refreshPatientDiagnoses,
     createNewDiagnose,
+    formatPatientPastPredictions,
     selectedPatient,
     patients,
     selectedPatientDiagnoses,
     noDataToDisplay,
-    selectedDiagnosis
+    selectedDiagnosis,
+    pastPredictionsChartOptions,
+    chartEjectionFractions,
   }
 })

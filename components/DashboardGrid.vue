@@ -3,37 +3,7 @@ import VueApexCharts from "vue3-apexcharts";
 import {usePatient} from "~/stores/patient";
 import BlurOverlay from "~/components/base/BlurOverlay.vue";
 
-const series = [
-  {
-    name: 'series1',
-    data: [31, 40, 28, 51, 42, 109, 100]
-  },
-]
-
-const chartOptions = {
-  chart: {
-    height: 350,
-    type: 'area'
-  },
-  dataLabels: {
-    enabled: false
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  xaxis: {
-    type: 'datetime',
-    categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-  },
-  tooltip: {
-    x: {
-      format: 'dd/MM/yy HH:mm'
-    },
-  },
-}
-
 const patients = usePatient()
-
 const createPatientFormIsOpen = ref(false)
 </script>
 
@@ -51,7 +21,7 @@ const createPatientFormIsOpen = ref(false)
         </div>
         <div class="chart-wrapper">
           <BlurOverlay v-if="patients.noDataToDisplay" message="No past predictions yet!" style="height: 92%"/>
-          <VueApexCharts type="area" height="280" :options="chartOptions" :series="series"></VueApexCharts>
+          <VueApexCharts type="area" height="280" :options="patients.pastPredictionsChartOptions" :series="patients.chartEjectionFractions"></VueApexCharts>
         </div>
       </div>
       <div class="patients-container">
@@ -74,7 +44,8 @@ const createPatientFormIsOpen = ref(false)
               <div class="no-diagnoses-placeholder" v-if="patients.selectedPatientDiagnoses.length <= 0">
                 No diagnoses made yet
               </div>
-              <div class="history-item" v-else v-for="diagnosis in patients.selectedPatientDiagnoses" :key="diagnosis.id" @click="">
+              <div class="history-item" v-else v-for="diagnosis in patients.selectedPatientDiagnoses"
+                   :key="diagnosis.id" @click="">
                 {{ diagnosis.id }}. {{ diagnosis.diagnosis_date }}
               </div>
             </div>
