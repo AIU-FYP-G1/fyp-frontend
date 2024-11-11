@@ -45,7 +45,7 @@ const createPatientFormIsOpen = ref(false)
                 No diagnoses made yet
               </div>
               <div class="history-item" v-else v-for="diagnosis in patients.selectedPatientDiagnoses"
-                   :key="diagnosis.id" @click="">
+                   :key="diagnosis.id" @click="patients.selectDiagnosis(diagnosis)">
                 {{ diagnosis.id }}. {{ diagnosis.diagnosis_date }}
               </div>
             </div>

@@ -25,21 +25,19 @@ export const usePatient = defineStore('patient', () => {
   let {$axios} = useNuxtApp()
   const api = $axios()
 
-  const selectedPatientDiagnoses = ref<PatientDiagnosis[]>([])
   const patients = ref<Patient[]>([])
-  const selectedPatient = computed((): Patient | null => {
-    return patients.value?.length > 0 ? patients.value[0] : null
-  })
-  const selectedDiagnosis = computed((): PatientDiagnosis | null => {
-    return selectedPatientDiagnoses.value?.length > 0 ? selectedPatientDiagnoses.value[0] : null
-  })
+  const selectedPatient = ref<Patient | null>(null)
+  const selectedPatientDiagnoses = ref<PatientDiagnosis[]>([])
+  const selectedDiagnosis = ref<PatientDiagnosis | null>(null)
 
   const noDataToDisplay = computed(() => !selectedPatient.value || selectedPatientDiagnoses.value.length <= 0)
 
   const fetchPatients = async () => {
     const {data} = await api.get('/patients/')
     patients.value = data
+    selectPatient(patients.value[0] ?? null)
     await fetchSelectedPatientDiagnoses()
+    selectDiagnosis(selectedPatientDiagnoses.value[0] ?? null)
   }
 
   const fetchSelectedPatientDiagnoses = async () => {
@@ -49,13 +47,12 @@ export const usePatient = defineStore('patient', () => {
     }
   }
 
-  watch(selectedPatient, fetchSelectedPatientDiagnoses)
-
   const refreshPatientDiagnoses = async () => {
     await fetchSelectedPatientDiagnoses()
   }
 
   const createNewDiagnose = async (data: CreatePatientDiagnosis) => {
+
     try {
       const payload = new FormData();
       payload.append('echocardiogram', data.file);
@@ -68,14 +65,13 @@ export const usePatient = defineStore('patient', () => {
     }
   }
 
-  const chartEjectionFractions = [
+  const chartEjectionFractions = reactive([
     {
       name: 'Ejection Fraction Over Time',
       data: [0]
     },
-  ]
-
-  const pastPredictionsChartOptions = {
+  ])
+  const pastPredictionsChartOptions = reactive({
     chart: {
       height: 350,
       type: 'area'
@@ -98,7 +94,7 @@ export const usePatient = defineStore('patient', () => {
         format: 'dd MMM yyyy HH:mm'
       }
     },
-  }
+  })
 
   const formatPatientPastPredictions = watchEffect(() => {
     const ejectionFractions: number[] = []
@@ -113,10 +109,23 @@ export const usePatient = defineStore('patient', () => {
     pastPredictionsChartOptions.xaxis.categories = formattedDates
   })
 
+  const selectDiagnosis = (toDisplayDiagnosis: PatientDiagnosis | null) => {
+    selectedDiagnosis.value = toDisplayDiagnosis
+  }
+
+  const selectPatient = (toDisplayPatient: Patient | null) => {
+    selectedPatient.value = toDisplayPatient
+  }
+
+  watch(selectedPatient, fetchSelectedPatientDiagnoses)
+  watch(selectedPatientDiagnoses, () => selectDiagnosis(selectedPatientDiagnoses.value[0]))
+  watch(patients, () => selectPatient(patients.value[0]))
+
   return {
     fetchPatients,
     refreshPatientDiagnoses,
     createNewDiagnose,
+    selectDiagnosis,
     formatPatientPastPredictions,
     selectedPatient,
     patients,
