@@ -116,7 +116,7 @@ const handleCreation = async () => {
                   id="male"
                   name="gender"
                   value="M"
-                  @blur="validateField('gender')"
+                  @keyup="validateField('gender')"
               />
               <label for="male">Male</label>
             </div>
@@ -127,7 +127,7 @@ const handleCreation = async () => {
                   id="female"
                   name="gender"
                   value="F"
-                  @blur="validateField('gender')"
+                  @keyup="validateField('gender')"
               />
               <label for="female">Female</label>
             </div>
@@ -168,18 +168,11 @@ const handleCreation = async () => {
     display: flex;
     flex-direction: column;
     position: relative;
-    margin: 0 auto 1.7rem;
+    margin: 0 auto 1rem;
     width: 250px;
 
     &:last-child {
       margin-bottom: 2.5rem;
-    }
-
-    .error {
-      color: #FF4C4C;
-      font-size: 12px;
-      position: absolute;
-      bottom: -19px;
     }
 
     label {

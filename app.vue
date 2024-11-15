@@ -15,6 +15,14 @@
   }
 }
 
+.error {
+  color: #FF4C4C;
+  font-size: 12px;
+  position: relative;
+  top: 10px;
+  margin-bottom: 7px;
+}
+
 .scale-fade-enter-active, .scale-fade-leave-active {
   transition: opacity 0.4s ease, transform 0.3s ease;
 }

@@ -49,11 +49,20 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  const changeProfilePassword = async (payload: object) => {
+    try {
+      await api.put('/password/', payload)
+    } catch (error) {
+      throw error
+    }
+  }
+
   return {
     storeTokens,
     logout,
     fetchCurrentUserData,
     profileInformation,
-    updateProfileInformation
+    updateProfileInformation,
+    changeProfilePassword
   }
 })

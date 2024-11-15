@@ -41,17 +41,70 @@ const generalSchema = z.object({
       .email({message: "Invalid email address"}),
 });
 
+const securitySchema = z.object({
+  old_password: z
+      .string()
+      .min(8, {message: "Password must be at least 8 characters long"})
+      .max(100, {message: "Password cannot be longer than 100 characters"}),
+  password1: z
+      .string()
+      .min(8, {message: "Password must be at least 8 characters long"})
+      .max(100, {message: "Password cannot be longer than 100 characters"}),
+  password2: z
+      .string()
+      .min(8, {message: "Password must be at least 8 characters long"})
+      .max(100, {message: "Password cannot be longer than 100 characters"}),
+}).refine((data) => data.password1 === data.password2, {
+  message: "Passwords must match",
+  path: ["password2"],
+});
+
 let generalErrors = reactive({
   full_name: '',
   email: '',
 });
 
-const validateField = (field: 'full_name' | 'email') => {
-  const result = generalSchema.shape[field].safeParse(auth.profileInformation[field]);
-  generalErrors[field] = result.success ? '' : result.error.errors[0].message;
-};
+let securityErrors = reactive({
+  old_password: '',
+  password1: '',
+  password2: '',
+});
+
+let securityState = reactive({
+  old_password: '',
+  password1: '',
+  password2: '',
+  new_password: '',
+});
 
 const activeTab = ref('general')
+
+watchEffect(() => {
+  if (activeTab.value === 'general') {
+    const result = generalSchema.safeParse(auth.profileInformation);
+    if (!result.success) {
+      result.error.errors.forEach((err) => {
+        generalErrors[err.path[0]] = err.message;
+      });
+    } else {
+      generalErrors = {full_name: '', email: ''};
+    }
+
+  }
+  if (activeTab.value === 'security') {
+    const result = securitySchema.safeParse(securityState);
+    console.log(result);
+    if (!result.success) {
+      result.error.errors.forEach((err) => {
+        securityErrors[err.path[0]] = err.message;
+      });
+    } else {
+      securityErrors = {old_password: '', password1: '', password2: ''};
+      securityErrors.old_password = ''
+    }
+  }
+
+});
 
 const avatarUpload = ref<HTMLInputElement | null>(null)
 const selectedAvatar = ref<File | null>(null)
@@ -116,6 +169,58 @@ const updateGeneralInfoProfile = async () => {
 
     for (const [path, messages] of Object.entries(data)) {
       generalErrors[path] = messages[0]
+    }
+
+    toast.error("An error occurred.", {
+      bodyClassName: 'toast-body'
+    });
+  } finally {
+    setTimeout(() => {
+      isSubmitting.value = false
+    }, 600)
+  }
+}
+
+const clearSecurityForm = () => {
+  securityState.old_password = '';
+  securityState.password1 = '';
+  securityState.password2 = '';
+}
+
+const updateProfileSecurity = async () => {
+  try {
+    isSubmitting.value = true
+
+    securityErrors.old_password = '';
+    securityErrors.password1 = '';
+    securityErrors.password2 = '';
+
+    const result = securitySchema.safeParse(securityState);
+    if (!result.success) {
+      result.error.errors.forEach((err) => {
+        securityErrors[err.path[0]] = err.message;
+      });
+      return;
+    }
+
+    let payload = {
+      old_password: securityState.old_password,
+      new_password: securityState.password1,
+    }
+
+    await auth.changeProfilePassword(payload)
+
+    setTimeout(() => {
+      toast.success("Password Updated successfully", {
+        bodyClassName: 'toast-body'
+      });
+      clearSecurityForm()
+    }, 600)
+  } catch (error: Error) {
+    const {response: {data}} = error
+
+    for (const [path, messages] of Object.entries(data)) {
+      securityErrors[path] = messages[0]
     }
 
     toast.error("An error occurred.", {
@@ -199,7 +304,7 @@ const updateGeneralInfoProfile = async () => {
                   <div>Others deserve to know you more</div>
                 </div>
                 <div class="input-container">
-                  <label for="password">Full Name</label>
+                  <label for="fullname">Full Name</label>
                   <input
                       v-model="auth.profileInformation.full_name"
                       type="text"
@@ -211,7 +316,7 @@ const updateGeneralInfoProfile = async () => {
                   </transition>
                 </div>
                 <div class="input-container">
-                  <label for="password">Email Address</label>
+                  <label for="email">Email Address</label>
                   <input
                       v-model="auth.profileInformation.email"
                       type="text"
@@ -237,40 +342,55 @@ const updateGeneralInfoProfile = async () => {
                 <UIcon name="cil:arrow-left"/>
                 Go Back
               </button>
-              <button @click="updateGeneralInfoProfile">Save Changes</button>
+              <button @click="updateProfileSecurity">Save Changes</button>
             </div>
           </div>
           <div class="general-container">
-            <div class="other-info group">
-              <div class="title">
-                Change Password
-                <div>For an improved account security</div>
+            <Loader v-if="isSubmitting"/>
+            <UForm v-else :schema="securitySchema" :state="securityState">
+              <div class="other-info group">
+                <div class="title">
+                  Change Password
+                  <div>For an improved account security</div>
+                </div>
+                <div class="input-container">
+                  <label for="old_password">Old Password</label>
+                  <input
+                      v-model="securityState.old_password"
+                      type="password"
+                      id="old_password"
+                      placeholder="Old Password"
+                  />
+                  <transition name="scale-fade">
+                    <div v-if="securityErrors.old_password" class="error">{{ securityErrors.old_password }}</div>
+                  </transition>
+                </div>
+                <div class="input-container">
+                  <label for="password1">New Password</label>
+                  <input
+                      v-model="securityState.password1"
+                      type="password"
+                      id="password1"
+                      placeholder="New Password"
+                  />
+                  <transition name="scale-fade">
+                    <div v-if="securityErrors.password1" class="error">{{ securityErrors.password1 }}</div>
+                  </transition>
+                </div>
+                <div class="input-container">
+                  <label for="password2">Repeat New Password</label>
+                  <input
+                      v-model="securityState.password2"
+                      type="password"
+                      id="password2"
+                      placeholder="Repeat New Password"
+                  />
+                  <transition name="scale-fade">
+                    <div v-if="securityErrors.password2" class="error">{{ securityErrors.password2 }}</div>
+                  </transition>
+                </div>
               </div>
-              <div class="input-container">
-                <label for="old_password">Old Password</label>
-                <input
-                    type="password"
-                    id="old_password"
-                    placeholder="Old Password"
-                />
-              </div>
-              <div class="input-container">
-                <label for="new_password">New Password</label>
-                <input
-                    type="password"
-                    id="new_password"
-                    placeholder="New Password"
-                />
-              </div>
-              <div class="input-container">
-                <label for="repeat_new_password">Repeat New Password</label>
-                <input
-                    type="password"
-                    id="repeat_new_password"
-                    placeholder="Repeat New Password"
-                />
-              </div>
-            </div>
+            </UForm>
           </div>
         </div>
       </div>
@@ -412,7 +532,6 @@ const updateGeneralInfoProfile = async () => {
 
           span {
             margin-right: 10px;
-            //font-size: 18px;
           }
 
           &:last-child {
@@ -490,7 +609,7 @@ const updateGeneralInfoProfile = async () => {
         .other-info {
 
           .input-container {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             display: flex;
             flex-direction: column;
 
