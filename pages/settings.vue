@@ -1,156 +1,275 @@
 <script setup lang="ts">
+import {z} from "zod";
+import {ref} from "vue";
+import {toast} from "vue3-toastify";
+import {useAuth} from "~/stores/auth";
+import Loader from '~/components/base/Loader.vue'
+
 definePageMeta({
   middleware: 'auth'
 })
 
+let {$axios} = useNuxtApp()
+const api = $axios()
+
+const auth = useAuth()
+
+const isLoading = ref(true)
+const originalProfile = ref<Record<string, any> | null>(null);
+
+onMounted(async () => {
+  try {
+    await auth.fetchCurrentUserData()
+    originalProfile.value = {...auth.profileInformation};
+    isLoading.value = false
+  } catch (error) {
+    console.log(error)
+    toast.error("An error occurred while fetching data.", {
+      bodyClassName: 'toast-body'
+    });
+  }
+})
+
+const generalSchema = z.object({
+  full_name: z
+      .string()
+      .min(3, {message: "full_name must be at least 3 characters long"})
+      .max(50, {message: "full_name must be 50 characters or less"}),
+  email: z
+      .string()
+      .min(1, {message: "Email is required"})
+      .email({message: "Invalid email address"}),
+});
+
+let generalErrors = reactive({
+  full_name: '',
+  email: '',
+});
+
+const validateField = (field: 'full_name' | 'email') => {
+  const result = generalSchema.shape[field].safeParse(auth.profileInformation[field]);
+  generalErrors[field] = result.success ? '' : result.error.errors[0].message;
+};
+
 const activeTab = ref('general')
+
 const avatarUpload = ref<HTMLInputElement | null>(null)
 const selectedAvatar = ref<File | null>(null)
+const avatarPreview = ref<string>('');
 
-const triggerAvatarUpload = (): void => {
+const triggerAvatarUpload = () => {
   avatarUpload.value?.click()
 }
 
-const handleAvatarChange = (event: Event): void => {
+const handleAvatarChange = (event: Event) => {
+
   const target = event.target as HTMLInputElement
   const avatar = target.files?.[0]
-
   if (avatar) {
     selectedAvatar.value = avatar
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      avatarPreview.value = reader.result as string;
+    };
+    reader.readAsDataURL(avatar);
   }
 }
 
-const updateProfile = () => {
-  console.log('Profile updated')
+const isSubmitting = ref(false)
+
+const updateGeneralInfoProfile = async () => {
+  try {
+    isSubmitting.value = true
+
+    generalErrors.full_name = '';
+    generalErrors.email = '';
+
+    const result = generalSchema.safeParse(auth.profileInformation);
+    if (!result.success) {
+      result.error.errors.forEach((err) => {
+        generalErrors[err.path[0]] = err.message;
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    for (const key in auth.profileInformation) {
+      if (auth.profileInformation[key] !== originalProfile.value?.[key]) {
+        formData.append(key, auth.profileInformation[key]);
+      }
+    }
+
+    if (selectedAvatar.value) {
+      formData.append("profile_picture", selectedAvatar.value);
+    }
+
+    await auth.updateProfileInformation(formData)
+
+    setTimeout(() => {
+      toast.success("Details Updated successfully", {
+        bodyClassName: 'toast-body'
+      });
+    }, 600)
+  } catch (error: Error) {
+    const {response: {data}} = error
+
+    for (const [path, messages] of Object.entries(data)) {
+      generalErrors[path] = messages[0]
+    }
+
+    toast.error("An error occurred.", {
+      bodyClassName: 'toast-body'
+    });
+  } finally {
+    setTimeout(() => {
+      isSubmitting.value = false
+    }, 600)
+  }
 }
 </script>
 
 <template>
-  <div class="settings-container">
-    <div class="settings-title">
-      Settings
-    </div>
-    <div class="wrapper">
-      <div class="tabs">
-        <div class="title">
-          <div class="avatar-container">
-            <img src="@/public/images/profile-avatar.jpg" alt="profile-picture">
-          </div>
-          <span>
-        Younes Djelloul
-      </span>
-        </div>
-        <div
-            class="tab"
-            :class="{ 'active-tab': activeTab == 'general' }"
-            @click="activeTab='general'"
-        >
-          <UIcon name="solar:user-bold-duotone"/>
-          General
-        </div>
-        <div
-            class="tab"
-            :class="{ 'active-tab': activeTab == 'security' }"
-            @click="activeTab='security'"
-        >
-          <UIcon name="material-symbols:security"/>
-          Security
-        </div>
+  <div class="settings-page">
+    <Header/>
+    <Loader v-if="isLoading"/>
+    <div class="settings-container" v-else>
+      <div class="settings-title">
+        Settings
       </div>
-      <div class="tab-content" v-if="activeTab === 'general'">
-        <div class="tab-content-header">
-          <div class="text">
-            General Info
-            <div>Edit your account's general information</div>
+      <div class="wrapper">
+        <div class="tabs">
+          <div class="title">
+            <div class="avatar-container">
+              <img :src="auth.profileInformation.profile_picture" alt="profile-picture">
+            </div>
+            <span>
+              {{ auth.profileInformation.full_name }}
+            </span>
           </div>
-          <div class="navigation">
-            <button @click="navigateTo('/dashboard')">
-              <UIcon name="cil:arrow-left"/>
-              Go Back
-            </button>
-            <button @click="updateProfile">Save Changes</button>
+          <div
+              class="tab"
+              :class="{ 'active-tab': activeTab == 'general' }"
+              @click="activeTab='general'"
+          >
+            <UIcon name="solar:user-bold-duotone"/>
+            General
           </div>
-        </div>
-        <div class="general-container" v-if="activeTab === 'general'">
-          <div class="update-avatar group">
-            <div class="title">
-              Profile Picture
-              <div>This is how others will recognize you</div>
-            </div>
-            <div class="upload-container">
-              <img src="@/public/images/profile-avatar.jpg" alt="current-avatar">
-              <input type="file" ref="avatarUpload" style="display: none;" accept="image/*"
-                     @change="handleAvatarChange">
-              <span class="edit-button" @click="triggerAvatarUpload"><UIcon name="fluent:edit-24-regular"/></span>
-            </div>
-          </div>
-          <div class="other-info group">
-            <div class="title">
-              Personal Info
-              <div>Others deserve to know you more</div>
-            </div>
-            <div class="input-container">
-              <label for="password">Full Name</label>
-              <input
-                  type="text"
-                  id="fullname"
-                  placeholder="Full Name"
-              />
-            </div>
-            <div class="input-container">
-              <label for="password">Email Address</label>
-              <input
-                  type="text"
-                  id="email"
-                  placeholder="Email Address"
-              />
-            </div>
+          <div
+              class="tab"
+              :class="{ 'active-tab': activeTab == 'security' }"
+              @click="activeTab='security'"
+          >
+            <UIcon name="material-symbols:security"/>
+            Security
           </div>
         </div>
-      </div>
-      <div class="tab-content" v-if="activeTab === 'security'">
-        <div class="tab-content-header">
-          <div class="text">
-            Account Security
-            <div>Edit your account security details</div>
+        <div class="tab-content" v-if="activeTab === 'general'">
+          <div class="tab-content-header">
+            <div class="text">
+              General Info
+              <div>Edit your account's general information</div>
+            </div>
+            <div class="navigation">
+              <button @click="navigateTo('/dashboard')">
+                <UIcon name="cil:arrow-left"/>
+                Go Back
+              </button>
+              <button @click="updateGeneralInfoProfile">Save Changes</button>
+            </div>
           </div>
-          <div class="navigation">
-            <button @click="navigateTo('/dashboard')">
-              <UIcon name="cil:arrow-left"/>
-              Go Back
-            </button>
-            <button @click="updateProfile">Save Changes</button>
+          <div class="general-container">
+            <Loader v-if="isSubmitting"/>
+            <UForm v-else :schema="generalSchema" :state="auth.profileInformation">
+              <div class="update-avatar group">
+                <div class="title">
+                  Profile Picture
+                  <div>This is how others will recognize you</div>
+                </div>
+                <div class="upload-container">
+                  <img :src="avatarPreview || auth.profileInformation.profile_picture" alt="current-avatar">
+                  <input type="file" ref="avatarUpload" style="display: none;" accept="image/*"
+                         @change="handleAvatarChange">
+                  <span class="edit-button" @click="triggerAvatarUpload"><UIcon name="fluent:edit-24-regular"/></span>
+                </div>
+              </div>
+              <div class="other-info group">
+                <div class="title">
+                  Personal Info
+                  <div>Others deserve to know you more</div>
+                </div>
+                <div class="input-container">
+                  <label for="password">Full Name</label>
+                  <input
+                      v-model="auth.profileInformation.full_name"
+                      type="text"
+                      id="fullname"
+                      placeholder="Full Name"
+                  />
+                  <transition name="scale-fade">
+                    <div v-if="generalErrors.full_name" class="error">{{ generalErrors.full_name }}</div>
+                  </transition>
+                </div>
+                <div class="input-container">
+                  <label for="password">Email Address</label>
+                  <input
+                      v-model="auth.profileInformation.email"
+                      type="text"
+                      id="email"
+                      placeholder="Email Address"
+                  />
+                  <transition name="scale-fade">
+                    <div v-if="generalErrors.email" class="error">{{ generalErrors.email }}</div>
+                  </transition>
+                </div>
+              </div>
+            </UForm>
           </div>
         </div>
-        <div class="general-container">
-          <div class="other-info group">
-            <div class="title">
-              Change Password
-              <div>For an improved account security</div>
+        <div class="tab-content" v-else-if="activeTab === 'security'">
+          <div class="tab-content-header">
+            <div class="text">
+              Account Security
+              <div>Edit your account security details</div>
             </div>
-            <div class="input-container">
-              <label for="old_password">Old Password</label>
-              <input
-                  type="password"
-                  id="old_password"
-                  placeholder="Old Password"
-              />
+            <div class="navigation">
+              <button @click="navigateTo('/dashboard')">
+                <UIcon name="cil:arrow-left"/>
+                Go Back
+              </button>
+              <button @click="updateGeneralInfoProfile">Save Changes</button>
             </div>
-            <div class="input-container">
-              <label for="new_password">New Password</label>
-              <input
-                  type="password"
-                  id="new_password"
-                  placeholder="New Password"
-              />
-            </div>
-            <div class="input-container">
-              <label for="repeat_new_password">Repeat New Password</label>
-              <input
-                  type="password"
-                  id="repeat_new_password"
-                  placeholder="Repeat New Password"
-              />
+          </div>
+          <div class="general-container">
+            <div class="other-info group">
+              <div class="title">
+                Change Password
+                <div>For an improved account security</div>
+              </div>
+              <div class="input-container">
+                <label for="old_password">Old Password</label>
+                <input
+                    type="password"
+                    id="old_password"
+                    placeholder="Old Password"
+                />
+              </div>
+              <div class="input-container">
+                <label for="new_password">New Password</label>
+                <input
+                    type="password"
+                    id="new_password"
+                    placeholder="New Password"
+                />
+              </div>
+              <div class="input-container">
+                <label for="repeat_new_password">Repeat New Password</label>
+                <input
+                    type="password"
+                    id="repeat_new_password"
+                    placeholder="Repeat New Password"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -160,11 +279,15 @@ const updateProfile = () => {
 </template>
 
 <style scoped lang="scss">
+.settings-page {
+  background-color: #EFEFEF;
+  padding: 25px 40px;
+}
+
 .settings-container {
   width: 100%;
   min-height: 100vh;
-  padding: 50px 50px;
-  background-color: #EFEFEF;
+  padding: 50px 0;
 
   .settings-title {
     font-size: 29px;
@@ -231,6 +354,7 @@ const updateProfile = () => {
         display: flex;
         align-items: center;
         margin-bottom: 30px;
+        width: 100%;
 
         .avatar-container {
           width: 55px;
