@@ -11,6 +11,7 @@ export const useAuth = defineStore('auth', () => {
   const access_token = useCookie('access_token')
   const refresh_token = useCookie('refresh_token')
   const profileInformation = ref()
+  const avatarPreview = ref<string>('');
 
   const storeTokens = (tokens: tokens) => {
     access_token.value = tokens.access
@@ -57,12 +58,18 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  const getProfilePictureUrl = () => {
+    return avatarPreview.value || profileInformation.value.profile_picture
+  }
+
   return {
     storeTokens,
     logout,
     fetchCurrentUserData,
     profileInformation,
     updateProfileInformation,
-    changeProfilePassword
+    changeProfilePassword,
+    avatarPreview,
+    getProfilePictureUrl
   }
 })

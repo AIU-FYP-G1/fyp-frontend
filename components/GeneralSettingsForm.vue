@@ -1,0 +1,323 @@
+<script setup lang="ts">
+import {useAuth} from "~/stores/auth";
+import {z} from "zod";
+import {ref} from "vue";
+import {toast} from "vue3-toastify";
+import Loader from "~/components/base/Loader.vue";
+
+const props = defineProps(['originalProfile'])
+
+const auth = useAuth()
+
+const generalSchema = z.object({
+  full_name: z
+      .string()
+      .min(3, {message: "full_name must be at least 3 characters long"})
+      .max(50, {message: "full_name must be 50 characters or less"}),
+  email: z
+      .string()
+      .min(1, {message: "Email is required"})
+      .email({message: "Invalid email address"}),
+});
+
+const avatarUpload = ref<HTMLInputElement | null>(null)
+const selectedAvatar = ref<File | null>(null)
+
+const triggerAvatarUpload = () => {
+  avatarUpload.value?.click()
+}
+
+const handleAvatarChange = (event: Event) => {
+
+  const target = event.target as HTMLInputElement
+  const avatar = target.files?.[0]
+  if (avatar) {
+    selectedAvatar.value = avatar
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      auth.avatarPreview = reader.result as string;
+    };
+    reader.readAsDataURL(avatar);
+  }
+}
+
+let generalErrors = reactive({
+  full_name: '',
+  email: '',
+});
+
+watchEffect(() => {
+  const result = generalSchema.safeParse(auth.profileInformation);
+  if (!result.success) {
+    result.error.errors.forEach((err) => {
+      generalErrors[err.path[0]] = err.message;
+    });
+  } else {
+    generalErrors = {full_name: '', email: ''};
+  }
+});
+
+const isSubmitting = ref(false)
+
+const updateGeneralInfoProfile = async () => {
+  try {
+    isSubmitting.value = true
+
+    generalErrors.full_name = '';
+    generalErrors.email = '';
+
+    const result = generalSchema.safeParse(auth.profileInformation);
+    if (!result.success) {
+      result.error.errors.forEach((err) => {
+        generalErrors[err.path[0]] = err.message;
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    for (const key in auth.profileInformation) {
+      if (auth.profileInformation[key] !== props.originalProfile?.[key]) {
+        formData.append(key, auth.profileInformation[key]);
+      }
+    }
+
+    if (selectedAvatar.value) {
+      formData.append("profile_picture", selectedAvatar.value);
+    }
+
+    await auth.updateProfileInformation(formData)
+
+    setTimeout(() => {
+      toast.success("Details Updated successfully", {
+        bodyClassName: 'toast-body'
+      });
+    }, 600)
+  } catch (error: Error) {
+    const {response: {data}} = error
+
+    for (const [path, messages] of Object.entries(data)) {
+      generalErrors[path] = messages[0]
+    }
+
+    toast.error("An error occurred.", {
+      bodyClassName: 'toast-body'
+    });
+  } finally {
+    setTimeout(() => {
+      isSubmitting.value = false
+    }, 600)
+  }
+}
+
+</script>
+
+<template>
+  <div class="general-settings-wrapper">
+    <div class="tab-content-header">
+      <div class="text">
+        General Info
+        <div>Edit your account's general information</div>
+      </div>
+      <div class="navigation">
+        <button @click="navigateTo('/dashboard')">
+          <UIcon name="cil:arrow-left"/>
+          Go Back
+        </button>
+        <button @click="updateGeneralInfoProfile">Save Changes</button>
+      </div>
+    </div>
+    <div class="general-container">
+      <Loader v-if="isSubmitting"/>
+      <UForm v-else :schema="generalSchema" :state="auth.profileInformation">
+        <div class="update-avatar group">
+          <div class="title">
+            Profile Picture
+            <div>This is how others will recognize you</div>
+          </div>
+          <div class="upload-container">
+            <img :src="auth.getProfilePictureUrl()" alt="current-avatar">
+            <input type="file" ref="avatarUpload" style="display: none;" accept="image/*"
+                   @change="handleAvatarChange">
+            <span class="edit-button" @click="triggerAvatarUpload"><UIcon name="fluent:edit-24-regular"/></span>
+          </div>
+        </div>
+        <div class="other-info group">
+          <div class="title">
+            Personal Info
+            <div>Others deserve to know you more</div>
+          </div>
+          <div class="input-container">
+            <label for="fullname">Full Name</label>
+            <input
+                v-model="auth.profileInformation.full_name"
+                type="text"
+                id="fullname"
+                placeholder="Full Name"
+            />
+            <transition name="scale-fade">
+              <div v-if="generalErrors.full_name" class="error">{{ generalErrors.full_name }}</div>
+            </transition>
+          </div>
+          <div class="input-container">
+            <label for="email">Email Address</label>
+            <input
+                v-model="auth.profileInformation.email"
+                type="text"
+                id="email"
+                placeholder="Email Address"
+            />
+            <transition name="scale-fade">
+              <div v-if="generalErrors.email" class="error">{{ generalErrors.email }}</div>
+            </transition>
+          </div>
+        </div>
+      </UForm>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.general-settings-wrapper {
+  width: 100%;
+
+  .tab-content-header {
+    width: 100%;
+    height: fit-content;
+    padding: 13px 15px 13px 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+
+    .text {
+      font-size: 15px;
+
+      div {
+        font-size: 12px;
+        color: #7d7d7d;
+      }
+    }
+
+    button {
+      font-size: 14px;
+      margin-right: 10px;
+      border-radius: 3px;
+      padding: 5px 13px;
+      background-color: rgba(201, 201, 201, 0.2);
+      display: inline-flex;
+      align-items: center;
+
+      span {
+        margin-right: 10px;
+      }
+
+      &:last-child {
+        margin-right: 0;
+        background-color: #5F94F5;
+        color: #fff;
+        font-weight: 500;
+        padding: 5px 15px;
+      }
+    }
+  }
+
+  .general-container {
+    width: 65%;
+    margin: 0 auto;
+
+    .group {
+      margin-bottom: 40px;
+
+      .title {
+        font-size: 16.5px;
+        color: #242424;
+        font-weight: 600;
+        margin-bottom: 35px;
+
+        div {
+          font-size: 13px;
+          color: #5D5D5D;
+          font-weight: normal;
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .update-avatar {
+      .upload-container {
+        position: relative;
+        margin: 0 auto;
+        width: fit-content;
+
+        img {
+          border-radius: 50%;
+          width: 75px;
+          height: 75px;
+          cursor: pointer;
+          outline: 3.2px solid #FFF;
+        }
+
+        .edit-button {
+          position: absolute;
+          bottom: 3px;
+          right: -3px;
+          background-color: #5F94F5;
+          padding: 8px 3px;
+          border-radius: 50%;
+          width: 25px;
+          height: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          outline: 1.2px solid #FFF;
+
+          span {
+            color: white;
+            font-size: 13.4px;
+          }
+        }
+      }
+    }
+
+    .other-info {
+
+      .input-container {
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        label {
+          font-size: 12.5px;
+          color: #5D5D5D;
+          margin-bottom: 8px;
+          font-family: 'Inter', sans-serif;
+          font-weight: 500;
+        }
+
+        input {
+          color: #464646 !important;
+          border-top: none;
+          border-right: none;
+          border-left: none;
+          background: none;
+          outline: none;
+          border-bottom: 1.5px solid #D6D6D6;
+          padding-bottom: 9px;
+          font-size: 13px;
+          width: 350px;
+        }
+      }
+    }
+  }
+}
+</style>
