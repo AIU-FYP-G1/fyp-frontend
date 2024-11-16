@@ -72,6 +72,11 @@ const displayPatient = (patient) => {
 
     .patient {
       cursor: pointer;
+
+      &.active {
+        background-color: #5F94F5;
+        border: 1px solid transparent;
+      }
     }
   }
 }
