@@ -20,6 +20,7 @@ const patientSchema = z.object({
       .string()
       .min(3, {message: "full_name must be at least 3 characters long"})
       .max(50, {message: "full_name must be 50 characters or less"}),
+  date_of_birth: z.string(),
   gender: z.enum(["M", "F"], {
     required_error: "Please select a gender.",
     invalid_type_error: "Invalid selection."
@@ -29,11 +30,13 @@ const patientSchema = z.object({
 const patientState = reactive({
   full_name: '',
   gender: '',
+  date_of_birth: '',
 })
 
 let errors = reactive({
   full_name: '',
   gender: '',
+  date_of_birth: '',
 });
 
 const validateField = (field) => {
@@ -49,6 +52,7 @@ const handleCreation = async () => {
 
     errors.full_name = '';
     errors.gender = '';
+    errors.date_of_birth = '';
 
     const result = patientSchema.safeParse(patientState);
     if (!result.success) {
@@ -103,6 +107,20 @@ const handleCreation = async () => {
           />
           <transition name="scale-fade">
             <div v-if="errors.full_name" class="error">{{ errors.full_name }}</div>
+          </transition>
+        </div>
+
+        <div class="input-container">
+          <label for="date_of_birth">Date Of Birth</label>
+          <input
+              v-model="patientState.date_of_birth"
+              type="date"
+              id="date_of_birth"
+              placeholder="The patients date of birth"
+              @keyup="validateField('date_of_birth')"
+          />
+          <transition name="scale-fade">
+            <div v-if="errors.date_of_birth" class="error">{{ errors.date_of_birth }}</div>
           </transition>
         </div>
 

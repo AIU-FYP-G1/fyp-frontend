@@ -41,7 +41,7 @@ const displayPatient = (patient) => {
             <UAvatar alt="Female" size="sm" class="gender" />
             <div class="patient-details">
               <span>{{ patient.full_name }}</span>
-              <span>12/01/2004</span>
+              <span>{{ patient.date_of_birth ?? 'unknown' }}</span>
             </div>
           </CListGroupItem>
         </CListGroup>
