@@ -65,12 +65,14 @@ const activeTab = ref('general')
             Security
           </div>
         </div>
-        <div class="tab-content" v-if="activeTab === 'general'">
-          <GeneralSettingsForm :original-profile="originalProfile"/>
-        </div>
-        <div class="tab-content" v-else-if="activeTab === 'security'">
-          <SecuritySettingsForm/>
-        </div>
+        <Transition name="tab-transition" mode="out-in">
+          <div class="tab-content" v-if="activeTab === 'general'">
+            <GeneralSettingsForm :original-profile="originalProfile"/>
+          </div>
+          <div class="tab-content" v-else-if="activeTab === 'security'">
+            <SecuritySettingsForm/>
+          </div>
+        </Transition>
       </div>
     </div>
   </div>
@@ -80,6 +82,27 @@ const activeTab = ref('general')
 .settings-page {
   background-color: #EFEFEF;
   padding: 25px 40px;
+}
+
+.tab-transition-enter-active,
+.tab-transition-leave-active {
+  transition: all 0.3s ease;
+}
+
+.tab-transition-enter-from {
+  opacity: 0;
+  transform: scale(0.8) translateY(50px);
+}
+
+.tab-transition-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.tab-transition-enter-to,
+.tab-transition-leave-from {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 
 .settings-container {
