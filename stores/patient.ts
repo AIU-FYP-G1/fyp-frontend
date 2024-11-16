@@ -29,6 +29,7 @@ export const usePatient = defineStore('patient', () => {
   const selectedPatient = ref<Patient | null>(null)
   const selectedPatientDiagnoses = ref<PatientDiagnosis[]>([])
   const selectedDiagnosis = ref<PatientDiagnosis | null>(null)
+  const diagnosisLoading = ref<boolean>(false)
 
   const noDataToDisplay = computed(() => !selectedPatient.value || selectedPatientDiagnoses.value.length <= 0)
 
@@ -110,7 +111,12 @@ export const usePatient = defineStore('patient', () => {
   })
 
   const selectDiagnosis = (toDisplayDiagnosis: PatientDiagnosis | null) => {
-    selectedDiagnosis.value = toDisplayDiagnosis
+    diagnosisLoading.value = true
+
+    setTimeout(() => {
+      selectedDiagnosis.value = toDisplayDiagnosis
+      diagnosisLoading.value = false
+    }, 350)
   }
 
   const selectPatient = (toDisplayPatient: Patient | null) => {
@@ -134,5 +140,6 @@ export const usePatient = defineStore('patient', () => {
     selectedDiagnosis,
     pastPredictionsChartOptions,
     chartEjectionFractions,
+    diagnosisLoading
   }
 })

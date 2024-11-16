@@ -24,6 +24,7 @@ const patients = usePatient()
       </div>
       <div class="result-box">
         <BlurOverlay v-if="patients.noDataToDisplay" message="No result yet!"/>
+        <BlurOverlay v-else-if="patients.diagnosisLoading" message="Fetching.."/>
         <div class="title">
           <UIcon name="game-icons:heart-beats"/>
           <span>

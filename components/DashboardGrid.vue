@@ -47,11 +47,17 @@ const navigatePatientsIsOpen = ref(false)
               </div>
             </div>
             <div class="history">
+              <BlurOverlay v-if="patients.diagnosisLoading" message="Fetching.." />
               <div class="no-diagnoses-placeholder" v-if="patients.selectedPatientDiagnoses.length <= 0">
                 No diagnoses made yet
               </div>
-              <div class="history-item" v-else v-for="diagnosis in patients.selectedPatientDiagnoses"
-                   :key="diagnosis.id" @click="patients.selectDiagnosis(diagnosis)">
+              <div
+                v-else
+                class="history-item"
+                :class="{'active': patients.selectedDiagnosis == diagnosis}"
+                v-for="diagnosis in patients.selectedPatientDiagnoses"
+                :key="diagnosis.id" @click="patients.selectDiagnosis(diagnosis)"
+              >
                 {{ diagnosis.id }}. {{ diagnosis.diagnosis_date }}
               </div>
             </div>
@@ -186,6 +192,7 @@ const navigatePatientsIsOpen = ref(false)
           height: 61%;
           overflow-y: scroll;
           justify-content: flex-start;
+          position: relative;
 
           .history-item {
             margin-bottom: 4px;
@@ -197,7 +204,7 @@ const navigatePatientsIsOpen = ref(false)
               margin-bottom: 0;
             }
 
-            &:first-child {
+            &.active {
               color: #4A6AF5;
               font-weight: 600;
             }
