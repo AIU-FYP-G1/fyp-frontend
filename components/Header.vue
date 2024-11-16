@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import {useAuth} from "~/stores/auth";
+
 const q = ref('')
+
+const auth = useAuth()
 </script>
 
 <template>
@@ -8,19 +12,23 @@ const q = ref('')
       <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
     </div>
     <div class="navigation-container">
-      <div><NuxtLink to='/dashboard'>home</NuxtLink></div>
-      <div><NuxtLink to='/about'>about</NuxtLink></div>
+      <div>
+        <NuxtLink to='/dashboard'>home</NuxtLink>
+      </div>
+      <div>
+        <NuxtLink to='/about'>about</NuxtLink>
+      </div>
     </div>
     <div class="search-container">
       <div class="input-control">
         <input type="text" placeholder="Search..." v-model="q">
         <div class="icon-container">
-          <UIcon name="prime:search" />
+          <UIcon name="prime:search"/>
         </div>
       </div>
     </div>
     <div class="profile-avatar-container">
-      <img src="@/public/images/profile-avatar.jpg" alt="Profile Avatar" class="avatar">
+      <img :src="auth.profileInformation.profile_picture" alt="Profile Avatar" class="avatar">
     </div>
   </div>
 </template>
