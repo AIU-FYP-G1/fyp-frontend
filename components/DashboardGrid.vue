@@ -5,6 +5,7 @@ import BlurOverlay from "~/components/base/BlurOverlay.vue";
 
 const patients = usePatient()
 const createPatientFormIsOpen = ref(false)
+const navigatePatientsIsOpen = ref(false)
 </script>
 
 <template>
@@ -12,6 +13,10 @@ const createPatientFormIsOpen = ref(false)
     <CreatePatientPopup
         :create-patient-form-is-open="createPatientFormIsOpen"
         @toggle-create-patient-form="createPatientFormIsOpen = false"
+    />
+    <NavigatePatientsPopup
+        :navigate-patients-is-open="navigatePatientsIsOpen"
+        @toggle-navigate-patients="navigatePatientsIsOpen = false"
     />
     <div class="grid-group">
       <div class="past-predictions">
@@ -21,7 +26,8 @@ const createPatientFormIsOpen = ref(false)
         </div>
         <div class="chart-wrapper">
           <BlurOverlay v-if="patients.noDataToDisplay" message="No past predictions yet!" style="height: 92%"/>
-          <VueApexCharts type="area" height="280" :options="patients.pastPredictionsChartOptions" :series="patients.chartEjectionFractions"></VueApexCharts>
+          <VueApexCharts type="area" height="280" :options="patients.pastPredictionsChartOptions"
+                         :series="patients.chartEjectionFractions"></VueApexCharts>
         </div>
       </div>
       <div class="patients-container">
@@ -31,7 +37,7 @@ const createPatientFormIsOpen = ref(false)
         </div>
         <div class="patients">
           <div class="patients-wrapper">
-            <div class="patient-name">
+            <div class="patient-name" @click="navigatePatientsIsOpen = true">
               <div class="icon-container">
                 <UIcon name="lucide:users"/>
               </div>
