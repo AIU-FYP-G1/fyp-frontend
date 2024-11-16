@@ -23,6 +23,21 @@
   margin-bottom: 7px;
 }
 
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s ease-out;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: scale(1.02);
+}
+
 .scale-fade-enter-active, .scale-fade-leave-active {
   transition: opacity 0.4s ease, transform 0.3s ease;
 }

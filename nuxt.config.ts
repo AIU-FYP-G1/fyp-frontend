@@ -11,6 +11,10 @@ export default defineNuxtConfig({
       link: [
         {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap'}
       ]
+    },
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in'
     }
   },
   runtimeConfig: {
