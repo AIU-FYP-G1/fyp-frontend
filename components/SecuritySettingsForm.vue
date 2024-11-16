@@ -32,26 +32,16 @@ let securityErrors = reactive({
   password1: '',
   password2: '',
 });
-
 let securityState = reactive({
   old_password: '',
   password1: '',
-  password2: '',
-  new_password: '',
+  password2: ''
 });
 
-watchEffect(() => {
-  const result = securitySchema.safeParse(securityState);
-  console.log(result);
-  if (!result.success) {
-    result.error.errors.forEach((err) => {
-      securityErrors[err.path[0]] = err.message;
-    });
-  } else {
-    securityErrors = {old_password: '', password1: '', password2: ''};
-    securityErrors.old_password = ''
-  }
-});
+const validateField = (field: keyof typeof securityState) => {
+  const result = securitySchema.shape[field].safeParse(securityState[field]);
+  securityErrors[field] = result.success ? '' : result.error.errors[0].message;
+};
 
 const isSubmitting = ref(false)
 
@@ -72,7 +62,8 @@ const updateProfileSecurity = async () => {
     const result = securitySchema.safeParse(securityState);
     if (!result.success) {
       result.error.errors.forEach((err) => {
-        securityErrors[err.path[0]] = err.message;
+        const fieldName = err.path[0]
+        securityErrors[fieldName] = err.message;
       });
       return;
     }
@@ -138,6 +129,7 @@ const updateProfileSecurity = async () => {
                 type="password"
                 id="old_password"
                 placeholder="Old Password"
+                @keyup="validateField('old_password')"
             />
             <transition name="scale-fade">
               <div v-if="securityErrors.old_password" class="error">{{ securityErrors.old_password }}</div>
@@ -150,6 +142,7 @@ const updateProfileSecurity = async () => {
                 type="password"
                 id="password1"
                 placeholder="New Password"
+                @keyup="validateField('password1')"
             />
             <transition name="scale-fade">
               <div v-if="securityErrors.password1" class="error">{{ securityErrors.password1 }}</div>
@@ -162,6 +155,7 @@ const updateProfileSecurity = async () => {
                 type="password"
                 id="password2"
                 placeholder="Repeat New Password"
+                @keyup="validateField('password2')"
             />
             <transition name="scale-fade">
               <div v-if="securityErrors.password2" class="error">{{ securityErrors.password2 }}</div>
