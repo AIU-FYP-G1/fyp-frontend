@@ -122,7 +122,6 @@ export const usePatient = defineStore('patient', () => {
 
     setTimeout(() => {
       selectedDiagnosis.value = toDisplayDiagnosis
-      console.log(selectedDiagnosis.value)
       diagnosisLoading.value = false
     }, 350)
   }
