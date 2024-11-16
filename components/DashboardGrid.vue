@@ -80,6 +80,7 @@ const navigatePatientsIsOpen = ref(false)
         </div>
         <div class="content">
           <BlurOverlay v-if="patients.noDataToDisplay" message="No interpretation yet!"/>
+          <BlurOverlay v-else-if="patients.diagnosisLoading" message="Fetching.." />
           <ul>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
             <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
