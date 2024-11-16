@@ -10,10 +10,17 @@ interface Patient {
   updated_at: Date
 }
 
+interface Interpretation {
+  id: number
+  note: string
+  createdAt: Date
+}
+
 interface PatientDiagnosis {
   id: number
   diagnosis_date: string
   notes: string
+  interpretations: Interpretation[]
   ejection_fraction: number
 }
 
@@ -115,6 +122,7 @@ export const usePatient = defineStore('patient', () => {
 
     setTimeout(() => {
       selectedDiagnosis.value = toDisplayDiagnosis
+      console.log(selectedDiagnosis.value)
       diagnosisLoading.value = false
     }, 350)
   }

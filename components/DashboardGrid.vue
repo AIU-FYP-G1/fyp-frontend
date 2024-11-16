@@ -82,9 +82,8 @@ const navigatePatientsIsOpen = ref(false)
           <BlurOverlay v-if="patients.noDataToDisplay" message="No interpretation yet!"/>
           <BlurOverlay v-else-if="patients.diagnosisLoading" message="Fetching.." />
           <ul>
-            <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
-            <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
-            <li><span>*</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem.</li>
+            <li v-if="patients.selectedDiagnosis?.interpretations.length == 0"><span>*</span>No Interpretation made!</li>
+            <li v-for="interpretation in patients.selectedDiagnosis?.interpretations"><span>*</span>{{ interpretation.note }}</li>
           </ul>
         </div>
       </div>
