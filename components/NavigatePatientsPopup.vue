@@ -38,7 +38,11 @@ const displayPatient = (patient) => {
               @click="displayPatient(patient)"
               class="patient"
           >
-            {{ patient.full_name }}
+            <UAvatar alt="Female" size="sm" class="gender" />
+            <div class="patient-details">
+              <span>{{ patient.full_name }}</span>
+              <span>12/01/2004</span>
+            </div>
           </CListGroupItem>
         </CListGroup>
       </div>
@@ -72,10 +76,25 @@ const displayPatient = (patient) => {
 
     .patient {
       cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
       &.active {
         background-color: #5F94F5;
         border: 1px solid transparent;
+      }
+
+      .patient-details {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 17px;
+
+        span:last-child {
+          font-size: 11px;
+        }
       }
     }
   }
