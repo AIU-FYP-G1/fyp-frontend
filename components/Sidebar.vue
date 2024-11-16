@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import UploadComponent from "~/components/UploadComponent.vue";
+import {useAuth} from "~/stores/auth";
+
+const auth = useAuth();
 
 const uploadFormIsOpen = ref(false)
 const currentPage = ref('dashboard')
@@ -21,7 +24,7 @@ watchEffect(() => {
     />
     <div class="navigation-group">
       <NuxtLink to="/dashboard">
-        <div class="icon-container" :class="{'active': currentPage == 'dashboard'}" @click="uploadFormIsOpen = false">
+        <div class="icon-container" :class="{'active': currentPage === 'dashboard'}" @click="uploadFormIsOpen = false">
           <UIcon name="game-icons:heart-beats"/>
         </div>
       </NuxtLink>
@@ -36,6 +39,10 @@ watchEffect(() => {
           <UIcon name="ion:settings-outline"/>
         </div>
       </NuxtLink>
+      <div class="linker"></div>
+      <div class="icon-container" @click="auth.logout()">
+        <UIcon name="basil:logout-outline"/>
+      </div>
     </div>
   </div>
 </template>
