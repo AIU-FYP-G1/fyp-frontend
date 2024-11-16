@@ -91,9 +91,10 @@ const handleSubmit = async () => {
             type="text"
             id="email"
             placeholder="Enter your email"
+            @keyup="validateField('email')"
         />
         <transition name="scale-fade">
-          <div v-if="errors.email" class="error">{{ errors.full_name }}</div>
+          <div v-if="errors.email" class="error">{{ errors.email }}</div>
         </transition>
       </div>
 
@@ -104,9 +105,10 @@ const handleSubmit = async () => {
             type="password"
             id="password"
             placeholder="*************"
+            @keyup="validateField('password')"
         />
         <transition name="scale-fade">
-          <div v-if="errors.password" class="error">{{ errors.full_name }}</div>
+          <div v-if="errors.password" class="error">{{ errors.password }}</div>
         </transition>
       </div>
 
