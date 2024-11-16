@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import Loader from "~/components/base/Loader.vue";
 import {ref} from "vue";
 import {toast} from "vue3-toastify";
