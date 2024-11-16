@@ -11,7 +11,7 @@ const patients = usePatient()
       Heart<br>Conditions
     </div>
     <div class="diagnose-result">
-      <div class="heart-container pulse">
+      <div class="heart-container heart-beat">
         <img src="@/public/images/heart%20image.png" alt="heart">
       </div>
       <div class="circle first-circle pulse"></div>
@@ -44,6 +44,28 @@ const patients = usePatient()
   }
   50% {
     opacity: 0.8;
+  }
+}
+
+.heart-beat {
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.03);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
