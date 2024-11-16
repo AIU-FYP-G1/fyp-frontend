@@ -47,16 +47,10 @@ let generalErrors = reactive({
   email: '',
 });
 
-watchEffect(() => {
-  const result = generalSchema.safeParse(auth.profileInformation);
-  if (!result.success) {
-    result.error.errors.forEach((err) => {
-      generalErrors[err.path[0]] = err.message;
-    });
-  } else {
-    generalErrors = {full_name: '', email: ''};
-  }
-});
+const validateField = (field: keyof typeof auth.profileInformation) => {
+  const result = generalSchema.shape[field].safeParse(auth.profileInformation[field]);
+  generalErrors[field] = result.success ? '' : result.error.errors[0].message;
+};
 
 const isSubmitting = ref(false)
 
@@ -154,6 +148,7 @@ const updateGeneralInfoProfile = async () => {
                 type="text"
                 id="fullname"
                 placeholder="Full Name"
+                @keyup="validateField('full_name')"
             />
             <transition name="scale-fade">
               <div v-if="generalErrors.full_name" class="error">{{ generalErrors.full_name }}</div>
@@ -166,6 +161,7 @@ const updateGeneralInfoProfile = async () => {
                 type="text"
                 id="email"
                 placeholder="Email Address"
+                @keyup="validateField('email')"
             />
             <transition name="scale-fade">
               <div v-if="generalErrors.email" class="error">{{ generalErrors.email }}</div>

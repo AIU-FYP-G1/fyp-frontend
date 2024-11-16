@@ -8,8 +8,7 @@ import {useAuth} from "~/stores/auth";
 
 const auth = useAuth()
 
-
-const securitySchema = z.object({
+const baseSecuritySchema = z.object({
   old_password: z
       .string()
       .min(8, {message: "Password must be at least 8 characters long"})
@@ -22,10 +21,24 @@ const securitySchema = z.object({
       .string()
       .min(8, {message: "Password must be at least 8 characters long"})
       .max(100, {message: "Password cannot be longer than 100 characters"}),
-}).refine((data) => data.password1 === data.password2, {
+});
+
+const securitySchema = baseSecuritySchema.refine((data) => data.password1 === data.password2, {
   message: "Passwords must match",
   path: ["password2"],
 });
+
+const validateField = (field: keyof typeof securityState) => {
+  const baseResult = baseSecuritySchema.shape[field].safeParse(securityState[field]);
+
+  if (field === 'password2' && baseResult.success) {
+    const matchResult = securitySchema.safeParse(securityState);
+    securityErrors[field] = matchResult.success ? '' :
+        (matchResult.error.errors.find(e => e.path[0] === 'password2')?.message || '');
+  } else {
+    securityErrors[field] = baseResult.success ? '' : baseResult.error.errors[0].message;
+  }
+}
 
 let securityErrors = reactive({
   old_password: '',
@@ -37,11 +50,6 @@ let securityState = reactive({
   password1: '',
   password2: ''
 });
-
-const validateField = (field: keyof typeof securityState) => {
-  const result = securitySchema.shape[field].safeParse(securityState[field]);
-  securityErrors[field] = result.success ? '' : result.error.errors[0].message;
-};
 
 const isSubmitting = ref(false)
 
