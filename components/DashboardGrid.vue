@@ -263,6 +263,7 @@ const navigatePatientsIsOpen = ref(false)
       width: 98%;
       margin: 0 auto;
       position: relative;
+      min-height: 90px;
 
       ul {
         width: 90%;
