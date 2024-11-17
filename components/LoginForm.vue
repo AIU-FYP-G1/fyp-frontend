@@ -68,11 +68,7 @@ const handleSubmit = async () => {
   } catch (error) {
     const {response: {data}} = error
 
-    for (const [path, messages] of Object.entries(data)) {
-      errors[path] = messages[0]
-    }
-
-    toast.error("An error occurred.", {
+    toast.error(data.error[0], {
       bodyClassName: 'toast-body'
     });
   } finally {
