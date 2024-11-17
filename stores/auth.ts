@@ -12,6 +12,7 @@ export const useAuth = defineStore('auth', () => {
   const refresh_token = useCookie('refresh_token')
   const profileInformation = ref()
   const avatarPreview = ref<string>('');
+  const profileDataLoading = ref<boolean>(false);
 
   const storeTokens = (tokens: tokens) => {
     access_token.value = tokens.access
@@ -30,8 +31,10 @@ export const useAuth = defineStore('auth', () => {
 
   const fetchCurrentUserData = async () => {
     try {
+      profileDataLoading.value = true
       const {data: responseData} = await api.get(`/profile/`)
       profileInformation.value = responseData
+      profileDataLoading.value = false
     } catch (error) {
       throw error
     }
@@ -70,6 +73,7 @@ export const useAuth = defineStore('auth', () => {
     updateProfileInformation,
     changeProfilePassword,
     avatarPreview,
-    getProfilePictureUrl
+    getProfilePictureUrl,
+    profileDataLoading,
   }
 })
