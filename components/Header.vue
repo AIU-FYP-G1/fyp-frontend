@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import {useAuth} from "~/stores/auth";
 
-const q = ref('')
-
 const auth = useAuth()
+
+const q = ref('')
+const isSearchOpen = ref(false)
 </script>
 
 <template>
   <div class="header-container">
+    <SearchResults
+        :is-visible="isSearchOpen"
+        v-model:search-query="q"
+        @closeSearch="isSearchOpen = false"
+    />
     <div class="aiu-logo-container">
       <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
     </div>
@@ -21,7 +27,7 @@ const auth = useAuth()
     </div>
     <div class="search-container">
       <div class="input-control">
-        <input type="text" placeholder="Search..." v-model="q">
+        <input @focus="isSearchOpen = true" type="text" placeholder="Search..." v-model="q">
         <div class="icon-container">
           <UIcon name="prime:search"/>
         </div>
