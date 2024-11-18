@@ -87,7 +87,7 @@ const formatDate = (date) => {
       </CInputGroup>
     </CModalHeader>
 
-    <CModalBody class="pt-0">
+    <CModalBody class="pt-0 search-content">
       <!-- Loading State -->
       <div v-if="isLoading" class="py-4 text-center text-gray-500">
         <CSpinner/>
@@ -187,5 +187,9 @@ const formatDate = (date) => {
 
 .section-content {
   margin-top: 0.5rem;
+}
+
+.search-content {
+  min-height: 120px;
 }
 </style>
