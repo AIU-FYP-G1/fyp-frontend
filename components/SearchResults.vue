@@ -18,7 +18,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['closeSearch', 'update:searchQuery'])
+const emit = defineEmits(['update:isVisible', 'update:searchQuery'])
 const router = useRouter()
 
 const localSearchQuery = computed({
@@ -47,17 +47,15 @@ const noResults = computed(() =>
 )
 
 const handleClose = () => {
-  emit('closeSearch')
+  emit('update:isVisible', false)
 }
 
 const handlePatientClick = (patient) => {
   router.push(`/patients/${patient.id}`)
-  handleClose()
 }
 
 const handleDiagnosisClick = (diagnosis) => {
   router.push(`/patients/${diagnosis.patientId}/diagnoses/${diagnosis.id}`)
-  handleClose()
 }
 
 const formatDate = (date) => {
@@ -175,10 +173,6 @@ const formatDate = (date) => {
 </template>
 
 <style scoped>
-.search-popup :deep(.modal-dialog) {
-  max-width: 600px;
-  margin-top: 2rem;
-}
 
 .search-section {
   margin-bottom: 1rem;
@@ -193,14 +187,5 @@ const formatDate = (date) => {
 
 .section-content {
   margin-top: 0.5rem;
-}
-
-:deep(.list-group-item) {
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-:deep(.list-group-item:hover) {
-  background-color: var(--cui-gray-100);
 }
 </style>

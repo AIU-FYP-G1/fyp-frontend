@@ -5,14 +5,15 @@ const auth = useAuth()
 
 const q = ref('')
 const isSearchOpen = ref(false)
+
+watchEffect(() => console.log(isSearchOpen.value))
 </script>
 
 <template>
   <div class="header-container">
     <SearchResults
-        :is-visible="isSearchOpen"
+        v-model:is-visible="isSearchOpen"
         v-model:search-query="q"
-        @closeSearch="isSearchOpen = false"
     />
     <div class="aiu-logo-container">
       <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
@@ -26,8 +27,8 @@ const isSearchOpen = ref(false)
       </div>
     </div>
     <div class="search-container">
-      <div class="input-control">
-        <input @focus="isSearchOpen = true" type="text" placeholder="Search..." v-model="q">
+      <div class="input-control" @click="isSearchOpen = true">
+        <input type="text" placeholder="Search..." v-model="q">
         <div class="icon-container">
           <UIcon name="prime:search"/>
         </div>
@@ -95,6 +96,7 @@ const isSearchOpen = ref(false)
       display: flex;
       align-items: center;
       position: relative;
+      cursor: pointer;
 
       .icon-container {
         width: 38px;
@@ -127,6 +129,7 @@ const isSearchOpen = ref(false)
         font-weight: 550;
         background-color: #EFEFEF;
         color: #464646;
+        cursor: pointer;
       }
     }
   }
