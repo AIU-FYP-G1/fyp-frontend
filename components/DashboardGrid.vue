@@ -38,10 +38,12 @@ const navigatePatientsIsOpen = ref(false)
         <div class="patients">
           <div class="patients-wrapper">
             <div class="patient-name" @click="navigatePatientsIsOpen = true">
-              <div class="icon-container">
-                <UIcon name="lucide:users"/>
+              <div class="patient">
+                <div class="icon-container">
+                  <UIcon name="lucide:users"/>
+                </div>
+                <span>{{ patients.selectedPatient?.full_name }}</span>
               </div>
-              <span>{{ patients.selectedPatient?.full_name }}</span>
               <div class="dropdown-icon">
                 <UIcon name="uiw:down"/>
               </div>
@@ -121,7 +123,8 @@ const navigatePatientsIsOpen = ref(false)
 
   .patients-container {
     height: 100%;
-    width: 210px;
+    min-width: 210px;
+    width: 29%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -147,39 +150,46 @@ const navigatePatientsIsOpen = ref(false)
           align-items: center;
           cursor: pointer;
           margin-bottom: 30px;
+          justify-content: space-between;
+          width: 100%;
 
-          > span {
-            color: #464646;
-            font-size: 14px;
-            width: 95px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-
-          .icon-container {
-            height: 50px;
-            width: 50px;
-            border-radius: 15px;
-            background-color: #EFEFEF;
-            color: #464646;
-            cursor: pointer;
-            display: inline-flex;
+          .patient {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            margin-right: 13px;
 
-            span {
-              font-size: 21px;
-              position: relative;
-              top: 2px;
+            > span {
+              color: #464646;
+              font-size: 14px;
+              width: 95px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+
+            .icon-container {
+              height: 50px;
+              width: 50px;
+              border-radius: 15px;
+              background-color: #EFEFEF;
+              color: #464646;
+              cursor: pointer;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 13px;
+
+              span {
+                font-size: 21px;
+                position: relative;
+                top: 2px;
+              }
             }
           }
 
           .dropdown-icon {
             position: relative;
-            top: 2px;
-            left: 12px;
+            top: 4px;
+            right: 16px;
           }
         }
 
@@ -242,9 +252,12 @@ const navigatePatientsIsOpen = ref(false)
   }
 
   .past-predictions {
+    width: 68%;
+
+
     .chart-wrapper {
       position: relative;
-      width: 525px;
+      width: 100%;
 
       .vue-apexcharts {
         width: 100%;
