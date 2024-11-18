@@ -139,6 +139,7 @@ export const usePatient = defineStore('patient', () => {
     refreshPatientDiagnoses,
     createNewDiagnose,
     selectDiagnosis,
+    selectPatient,
     formatPatientPastPredictions,
     selectedPatient,
     patients,

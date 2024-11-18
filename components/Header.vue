@@ -5,8 +5,6 @@ const auth = useAuth()
 
 const q = ref('')
 const isSearchOpen = ref(false)
-
-watchEffect(() => console.log(isSearchOpen.value))
 </script>
 
 <template>
