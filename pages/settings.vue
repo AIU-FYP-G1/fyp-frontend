@@ -229,4 +229,26 @@ const activeTab = ref('general')
     }
   }
 }
+
+@media (max-width: 935px) {
+  .settings-container {
+    .settings-title {
+      width: 95%;
+    }
+    .wrapper {
+      width: 95%;
+    }
+  }
+}
+
+@media (max-width: 1150px) {
+  .settings-container {
+    .settings-title {
+      width: 95%;
+    }
+    .wrapper {
+      width: 95%;
+    }
+  }
+}
 </style>
