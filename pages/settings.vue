@@ -205,4 +205,28 @@ const activeTab = ref('general')
     }
   }
 }
+
+@media (max-width: 768px) {
+  .settings-container {
+    .settings-title {
+      width: 100%;
+    }
+
+    .wrapper {
+      flex-direction: column;
+      width: 100%;
+      gap: 1.3rem;
+
+      > div {
+        width: 100% !important;
+      }
+
+      .tab-content {
+        .general-container {
+          width: 90%;
+        }
+      }
+    }
+  }
+}
 </style>
