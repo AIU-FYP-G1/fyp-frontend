@@ -14,15 +14,18 @@ const isSearchOpen = ref(false)
         v-model:search-query="q"
     />
     <div class="left-section">
-      <div class="aiu-logo-container">
-        <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
-      </div>
-      <div class="navigation-container">
-        <div>
-          <NuxtLink to='/dashboard'>home</NuxtLink>
+      <UIcon class="sidebar-handler" name="ant-design:bars-outlined"/>
+      <div class="left-section-lg-screen">
+        <div class="aiu-logo-container">
+          <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
         </div>
-        <div>
-          <NuxtLink to='/about'>about</NuxtLink>
+        <div class="navigation-container">
+          <div>
+            <NuxtLink to='/dashboard'>home</NuxtLink>
+          </div>
+          <div>
+            <NuxtLink to='/about'>about</NuxtLink>
+          </div>
         </div>
       </div>
     </div>
@@ -44,51 +47,60 @@ const isSearchOpen = ref(false)
 
 <style scoped lang="scss">
 .header-container {
-  width: 98%;
+  width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
 
   .left-section {
-    display: flex;
-
-    .aiu-logo-container {
-      width: 50px;
-      height: 50px;
-      margin-right: 50px;
+    .sidebar-handler {
+      display: none;
+      font-size: 24px;
       cursor: pointer;
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
     }
 
-    .navigation-container {
+    .left-section-lg-screen {
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
 
-      > div {
+      .aiu-logo-container {
+        width: 50px;
+        height: 50px;
+        margin-right: 50px;
         cursor: pointer;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 13px;
-        margin-right: 20px;
 
-        a {
-          text-decoration: none;
-          color: #464646;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
 
-          &:hover {
-            color: #050339;
-          }
+      .navigation-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
 
-          &.router-link-active {
-            color: #4A6AF5;
+        > div {
+          cursor: pointer;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 13px;
+          margin-right: 20px;
+
+          a {
+            text-decoration: none;
+            color: #464646;
+
+            &:hover {
+              color: #050339;
+            }
+
+            &.router-link-active {
+              color: #4A6AF5;
+            }
           }
         }
       }
@@ -100,12 +112,14 @@ const isSearchOpen = ref(false)
 
     .search-container {
       margin-right: 35px;
+      width: 405px;
 
       .input-control {
         display: flex;
         align-items: center;
         position: relative;
         cursor: pointer;
+        width: 100%;
 
         .icon-container {
           width: 38px;
@@ -130,7 +144,7 @@ const isSearchOpen = ref(false)
 
         input {
           height: 40px;
-          width: 405px;
+          width: 100%;
           border-radius: 20px;
           padding: 5px 20px 5px 17px;
           outline: 3.2px solid #FFF;
@@ -153,6 +167,32 @@ const isSearchOpen = ref(false)
       img {
         width: 100%;
         height: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    .left-section {
+      width: 10%;
+
+      .left-section-lg-screen {
+        display: none;
+      }
+
+      .sidebar-handler {
+        display: inline-block;
+      }
+    }
+
+    .right-section {
+      width: 90%;
+      justify-content: flex-end;
+
+      .search-container {
+        width: 76%;
+        margin-right: 20px;
       }
     }
   }
