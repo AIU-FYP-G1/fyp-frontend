@@ -22,7 +22,7 @@ import DashboardInterpretation from "~/components/molecules/DashboardInterpretat
 .dashboard-grid-container {
   width: 100%;
   margin-top: 30px;
-  padding-left: 20px;
+  flex: 16;
 }
 
 </style>

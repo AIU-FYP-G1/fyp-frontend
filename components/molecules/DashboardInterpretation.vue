@@ -31,7 +31,8 @@ const patients = usePatient()
 
 .interpretation {
   width: 100%;
-  height: 240px;
+  height: fit-content;
+  padding-bottom: 20px;
 
   .content {
     outline: 3.5px solid #FFF;

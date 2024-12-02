@@ -66,8 +66,7 @@ const navigatePatientsIsOpen = ref(false)
 @import 'assets/scss/dashboard-grid.scss';
 
 .patients-container {
-  height: 100%;
-  max-height: 350px;
+  height: 347px;
   min-width: 210px;
   width: 29%;
   display: flex;

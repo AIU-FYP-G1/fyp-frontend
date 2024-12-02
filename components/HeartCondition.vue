@@ -58,7 +58,7 @@ const patients = usePatient()
 
     .diagnose-result {
       position: relative;
-      min-height: 380px;
+      width: 300px;
 
       .dots {
         > img {
@@ -180,6 +180,10 @@ const patients = usePatient()
     align-items: flex-start;
     width: 100%;
     justify-content: center;
+
+    .diagnose-result {
+      height: 370px;
+    }
   }
 }
 </style>
