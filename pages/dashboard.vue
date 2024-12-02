@@ -26,7 +26,7 @@ onMounted(async () => {
     <div class="dashboard-wrapper" v-else>
       <Header/>
       <div class="main-content">
-        <Sidebar/>
+        <Sidebar class="main-content__sidebar"/>
         <HeartCondition/>
         <DashboardGrid/>
       </div>
@@ -49,6 +49,14 @@ onMounted(async () => {
     .main-content {
       display: flex;
       height: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    &__sidebar {
+      display: none;
     }
   }
 }

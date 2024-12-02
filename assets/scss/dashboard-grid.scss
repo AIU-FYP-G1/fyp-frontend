@@ -1,0 +1,22 @@
+.grid-group {
+  display: flex;
+  width: 97%;
+  height: 347px;
+  overflow-y: hidden;
+  justify-content: space-between;
+  flex-direction: row;
+
+  .title {
+    margin-bottom: 25px;
+    font-size: 18.5px;
+    display: flex;
+    align-items: center;
+    color: #242424;
+
+    span {
+      color: #5F94F5;
+      font-size: 13px;
+      margin-right: 9px;
+    }
+  }
+}
