@@ -67,11 +67,26 @@ const navigatePatientsIsOpen = ref(false)
 
 .patients-container {
   height: 100%;
+  max-height: 350px;
   min-width: 210px;
   width: 29%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+
+  > .title {
+    margin-bottom: 25px;
+    font-size: 18.5px;
+    display: flex;
+    align-items: center;
+    color: #242424;
+
+    span {
+      color: #5F94F5;
+      font-size: 13px;
+      margin-right: 9px;
+    }
+  }
 
   .patients {
     background-color: #FFF;

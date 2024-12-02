@@ -27,7 +27,6 @@ const patients = usePatient()
 .past-predictions {
   width: 68%;
 
-
   .chart-wrapper {
     position: relative;
     width: 100%;
@@ -35,6 +34,12 @@ const patients = usePatient()
     .vue-apexcharts {
       width: 100%;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .past-predictions {
+    width: 100%;
   }
 }
 </style>

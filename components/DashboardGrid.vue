@@ -8,7 +8,7 @@ import DashboardInterpretation from "~/components/molecules/DashboardInterpretat
   <div class="dashboard-grid-container">
     <div class="grid-group">
       <PastPredictions/>
-      <DashboardPatients/>
+      <DashboardPatients class="dashboard-patients" />
     </div>
     <div class="grid-group">
       <DashboardInterpretation/>
@@ -22,5 +22,7 @@ import DashboardInterpretation from "~/components/molecules/DashboardInterpretat
 .dashboard-grid-container {
   width: 100%;
   margin-top: 30px;
+  gap: 5px;
 }
+
 </style>

@@ -40,11 +40,12 @@ onMounted(async () => {
   height: 100vh;
   background-color: #EFEFEF;
   padding: 25px 40px;
-  overflow: hidden;
   position: relative;
+  overflow: scroll;
 
   .dashboard-wrapper {
-    height: 100%;
+    min-height: 100%;
+    height: 100vh;
 
     .main-content {
       display: flex;
@@ -53,10 +54,17 @@ onMounted(async () => {
   }
 }
 
-@media (max-width: 768px) {
-  .main-content {
-    &__sidebar {
-      display: none;
+@media (max-width: 1100px) {
+  .dashboard-container {
+    padding: 25px;
+
+    .main-content {
+      flex-direction: column;
+      padding-top: 30px;
+
+      &__sidebar {
+        display: none;
+      }
     }
   }
 }
