@@ -54,6 +54,14 @@ onMounted(async () => {
   }
 }
 
+@media (max-width: 768px) {
+  .main-content {
+    &__sidebar {
+      display: none;
+    }
+  }
+}
+
 @media (max-width: 1100px) {
   .dashboard-container {
     padding: 25px;
@@ -61,10 +69,6 @@ onMounted(async () => {
     .main-content {
       flex-direction: column;
       padding-top: 30px;
-
-      &__sidebar {
-        display: none;
-      }
     }
   }
 }
