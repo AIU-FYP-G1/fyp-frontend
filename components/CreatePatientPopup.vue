@@ -25,18 +25,30 @@ const patientSchema = z.object({
     required_error: "Please select a gender.",
     invalid_type_error: "Invalid selection."
   }),
+  weight: z
+      .number()
+      .positive({message: "Weight must be a positive number."})
+      .max(500, {message: "Weight must be 500 kg or less."}),
+  height: z
+      .number()
+      .min(50, {message: "Height must be at least 50 cm."})
+      .max(250, {message: "Height must be 250 cm or less."}),
 });
 
 const patientState = reactive({
   full_name: '',
   gender: '',
   date_of_birth: '',
+  weight: 0,
+  height: 0
 })
 
 let errors = reactive({
   full_name: '',
   gender: '',
   date_of_birth: '',
+  weight: '',
+  height: ''
 });
 
 const validateField = (field) => {
@@ -124,6 +136,35 @@ const handleCreation = async () => {
           </transition>
         </div>
 
+        <div class="cluster">
+          <div class="input-container">
+            <label for="weight">Patient Weight</label>
+            <input
+                v-model="patientState.weight"
+                type="number"
+                id="weight"
+                placeholder="The patients weight"
+                @keyup="validateField('weight')"
+            />
+            <transition name="scale-fade">
+              <div v-if="errors.weight" class="error">{{ errors.weight }}</div>
+            </transition>
+          </div>
+          <div class="input-container">
+            <label for="height">Patient Height</label>
+            <input
+                v-model="patientState.height"
+                type="number"
+                id="height"
+                placeholder="The patients height"
+                @keyup="validateField('height')"
+            />
+            <transition name="scale-fade">
+              <div v-if="errors.height" class="error">{{ errors.height }}</div>
+            </transition>
+          </div>
+        </div>
+
         <div class="input-container">
           <label for="gender">Gender</label>
           <div class="gender-container">
@@ -182,12 +223,23 @@ const handleCreation = async () => {
     margin-bottom: 35px;
   }
 
+  .cluster {
+    display: flex;
+    gap: 2rem;
+    width: 300px;
+    margin: 0 auto 1rem;
+
+    .input-container {
+      margin-bottom: 0 !important;
+    }
+  }
+
   .input-container {
     display: flex;
     flex-direction: column;
     position: relative;
     margin: 0 auto 1rem;
-    width: 250px;
+    width: 300px;
 
     &:last-child {
       margin-bottom: 2.5rem;

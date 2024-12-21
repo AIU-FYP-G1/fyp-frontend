@@ -5,6 +5,8 @@ const auth = useAuth()
 
 const q = ref('')
 const isSearchOpen = ref(false)
+
+const isSlideoverOpen = ref(false)
 </script>
 
 <template>
@@ -13,8 +15,43 @@ const isSearchOpen = ref(false)
         v-model:is-visible="isSearchOpen"
         v-model:search-query="q"
     />
+    <USlideover class="slideover" side="left" v-model="isSlideoverOpen" :transition="true">
+      <UCard class="flex flex-col flex-1"
+             :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white flex items-center justify-center text-md font-bold leading-tight">
+              <div class="aiu-logo-container mx-3">
+                <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
+              </div>
+              AIU EF Predictor
+            </h3>
+          </div>
+        </template>
+
+        <div class="left-section-sm-screen">
+          <div class="navigation-container">
+            <div>
+              <NuxtLink to='/dashboard'>
+                <UIcon name="solar:home-2-bold"/>
+                home
+              </NuxtLink>
+            </div>
+            <div>
+              <NuxtLink to='/about'>about</NuxtLink>
+            </div>
+            <div>
+              <NuxtLink to='/settings'>settings</NuxtLink>
+            </div>
+            <div @click="auth.logout()">
+              logout
+            </div>
+          </div>
+        </div>
+      </UCard>
+    </USlideover>
     <div class="left-section">
-      <UIcon class="sidebar-handler" name="ant-design:bars-outlined"/>
+      <UIcon class="sidebar-handler" name="ant-design:bars-outlined" @click="isSlideoverOpen=true"/>
       <div class="left-section-lg-screen">
         <div class="aiu-logo-container">
           <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
@@ -46,6 +83,43 @@ const isSearchOpen = ref(false)
 </template>
 
 <style scoped lang="scss">
+.slideover {
+  .left-section-sm-screen {
+    .navigation-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-left: 20px;
+
+      > div {
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 15px;
+        margin-right: 20px;
+
+        a {
+          text-decoration: none;
+          color: #464646;
+
+          span {
+            font-size: 18px;
+          }
+
+          &:hover {
+            color: #050339;
+          }
+
+          &.router-link-active {
+            color: #4A6AF5;
+          }
+        }
+      }
+    }
+  }
+}
+
 .header-container {
   width: 100%;
   height: fit-content;
