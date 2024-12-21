@@ -1,16 +1,27 @@
 <script setup lang="ts">
 import {useAuth} from "~/stores/auth";
+import UploadComponent from "~/components/UploadComponent.vue";
 
 const auth = useAuth()
 
+const uploadFormIsOpen = ref(false)
 const q = ref('')
 const isSearchOpen = ref(false)
 
 const isSlideoverOpen = ref(false)
+
+const openUploadModal = () => {
+  isSlideoverOpen.value = false
+  uploadFormIsOpen.value = true
+}
 </script>
 
 <template>
   <div class="header-container">
+    <UploadComponent
+        :upload-form-is-open="uploadFormIsOpen"
+        @toggle-upload-form="uploadFormIsOpen = false"
+    />
     <SearchResults
         v-model:is-visible="isSearchOpen"
         v-model:search-query="q"
@@ -24,7 +35,7 @@ const isSlideoverOpen = ref(false)
               <div class="aiu-logo-container mx-3">
                 <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
               </div>
-              AIU EF Predictor
+              Ejection Fraction Predictor
             </h3>
           </div>
         </template>
@@ -38,13 +49,28 @@ const isSlideoverOpen = ref(false)
               </NuxtLink>
             </div>
             <div>
-              <NuxtLink to='/about'>about</NuxtLink>
+              <NuxtLink to='/about'>
+                <UIcon name="ix:about-filled"/>
+                about
+              </NuxtLink>
+            </div>
+            <div @click="openUploadModal">
+              <a>
+                <UIcon name="streamline:ai-chip-spark"/>
+                Predict
+              </a>
             </div>
             <div>
-              <NuxtLink to='/settings'>settings</NuxtLink>
+              <NuxtLink to='/settings'>
+                <UIcon name="material-symbols:settings-rounded"/>
+                settings
+              </NuxtLink>
             </div>
             <div @click="auth.logout()">
-              logout
+              <a>
+                <UIcon name="basil:logout-outline"/>
+                logout
+              </a>
             </div>
           </div>
         </div>
@@ -102,6 +128,10 @@ const isSlideoverOpen = ref(false)
         a {
           text-decoration: none;
           color: #464646;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: .7rem;
 
           span {
             font-size: 18px;
