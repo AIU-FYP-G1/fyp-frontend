@@ -20,6 +20,10 @@ const patientSchema = z.object({
       .string()
       .min(3, {message: "full_name must be at least 3 characters long"})
       .max(50, {message: "full_name must be 50 characters or less"}),
+  patient_id: z
+      .string()
+      .min(3, {message: "patient ID must be at least 3 characters long"})
+      .max(50, {message: "patient ID must be 50 characters or less"}),
   date_of_birth: z.string(),
   gender: z.enum(["M", "F"], {
     required_error: "Please select a gender.",
@@ -31,12 +35,13 @@ const patientSchema = z.object({
       .max(500, {message: "Weight must be 500 kg or less."}),
   height: z
       .number()
-      .min(50, {message: "Height must be at least 50 cm."})
+      .min(10, {message: "Height must be at least 10 cm."})
       .max(250, {message: "Height must be 250 cm or less."}),
 });
 
 const patientState = reactive({
   full_name: '',
+  patient_id: '',
   gender: '',
   date_of_birth: '',
   weight: 0,
@@ -45,6 +50,7 @@ const patientState = reactive({
 
 let errors = reactive({
   full_name: '',
+  patient_id: '',
   gender: '',
   date_of_birth: '',
   weight: '',
@@ -114,7 +120,7 @@ const handleCreation = async () => {
               v-model="patientState.full_name"
               type="text"
               id="full_name"
-              placeholder="The patients full_name"
+              placeholder="The patient full_name"
               @keyup="validateField('full_name')"
           />
           <transition name="scale-fade">
@@ -122,18 +128,33 @@ const handleCreation = async () => {
           </transition>
         </div>
 
-        <div class="input-container">
-          <label for="date_of_birth">Date Of Birth</label>
-          <input
-              v-model="patientState.date_of_birth"
-              type="date"
-              id="date_of_birth"
-              placeholder="The patients date of birth"
-              @keyup="validateField('date_of_birth')"
-          />
-          <transition name="scale-fade">
-            <div v-if="errors.date_of_birth" class="error">{{ errors.date_of_birth }}</div>
-          </transition>
+        <div class="cluster">
+          <div class="input-container">
+            <label for="patient_id">Patient ID</label>
+            <input
+                v-model="patientState.patient_id"
+                type="text"
+                id="patient_id"
+                placeholder="The patient ID"
+                @keyup="validateField('patient_id')"
+            />
+            <transition name="scale-fade">
+              <div v-if="errors.patient_id" class="error">{{ errors.patient_id }}</div>
+            </transition>
+          </div>
+          <div class="input-container">
+            <label for="date_of_birth">Date Of Birth</label>
+            <input
+                v-model="patientState.date_of_birth"
+                type="date"
+                id="date_of_birth"
+                placeholder="The patient date of birth"
+                @keyup="validateField('date_of_birth')"
+            />
+            <transition name="scale-fade">
+              <div v-if="errors.date_of_birth" class="error">{{ errors.date_of_birth }}</div>
+            </transition>
+          </div>
         </div>
 
         <div class="cluster">
@@ -143,7 +164,7 @@ const handleCreation = async () => {
                 v-model="patientState.weight"
                 type="number"
                 id="weight"
-                placeholder="The patients weight"
+                placeholder="The patient weight"
                 @keyup="validateField('weight')"
             />
             <transition name="scale-fade">
@@ -156,7 +177,7 @@ const handleCreation = async () => {
                 v-model="patientState.height"
                 type="number"
                 id="height"
-                placeholder="The patients height"
+                placeholder="The patient height"
                 @keyup="validateField('height')"
             />
             <transition name="scale-fade">
@@ -226,7 +247,7 @@ const handleCreation = async () => {
   .cluster {
     display: flex;
     gap: 2rem;
-    width: 300px;
+    width: 350px;
     margin: 0 auto 1rem;
 
     .input-container {
@@ -239,7 +260,7 @@ const handleCreation = async () => {
     flex-direction: column;
     position: relative;
     margin: 0 auto 1rem;
-    width: 300px;
+    width: 350px;
 
     &:last-child {
       margin-bottom: 2.5rem;
