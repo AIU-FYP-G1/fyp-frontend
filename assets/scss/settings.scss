@@ -50,6 +50,10 @@
   width: 65%;
   margin: 0 auto;
 
+  form {
+    width: 100%;
+  }
+
   .group {
     margin-bottom: 40px;
 
@@ -145,6 +149,17 @@
 }
 
 @media (max-width: 768px) {
+  .other-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > div {
+      width: 80%;
+    }
+  }
+
   .general-container {
     width: 80%;
   }
@@ -153,16 +168,27 @@
     .navigation {
       display: flex;
       flex-direction: column;
-      width: 50%;
+      width: 40%;
       gap: 0.4rem;
     }
   }
 }
 
-@media (max-width: 930px) {
+@media (max-width: 930px) and (min-width: 769px) {
+  .other-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > div {
+      width: 80%;
+    }
+  }
+
   .tab-content-header {
     .navigation {
-      width: 75%;
+      width: 30%;
     }
   }
 }

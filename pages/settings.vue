@@ -32,7 +32,7 @@ const activeTab = ref('general')
 
 <template>
   <div class="settings-page">
-    <Header/>
+    <Header v-if="!isLoading" />
     <Loader v-if="isLoading"/>
     <div class="settings-container" v-else>
       <div class="settings-title">
