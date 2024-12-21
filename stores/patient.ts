@@ -26,6 +26,7 @@ interface PatientDiagnosis {
 
 interface CreatePatientDiagnosis {
   file: File
+  view_type: string
 }
 
 export const usePatient = defineStore('patient', () => {
@@ -64,6 +65,7 @@ export const usePatient = defineStore('patient', () => {
     try {
       const payload = new FormData();
       payload.append('echocardiogram', data.file);
+      payload.append('view_type', data.view_type);
 
       const {data: responseData} = await api.post(`/patients/${selectedPatient.value?.id}/diagnoses/`, payload)
       await refreshPatientDiagnoses()

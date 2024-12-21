@@ -31,6 +31,7 @@ const handleFileChange = (event: Event): void => {
 }
 
 const isSubmitting = ref(false)
+const view_type = ref('')
 
 const handleUpload = async () => {
   isSubmitting.value = true
@@ -44,6 +45,7 @@ const handleUpload = async () => {
 
   const formData = {
     file: selectedFile.value,
+    view_type: view_type.value,
   };
 
   try {
@@ -90,6 +92,32 @@ const handleUpload = async () => {
           <UIcon name="ei:plus"/>
         </button>
       </div>
+      <div class="input-container">
+        <label for="view_type">View Type</label>
+        <div class="view-container">
+          <div class="view">
+            <input
+                v-model="view_type"
+                type="radio"
+                id="a4c"
+                name="view_type"
+                value="a4c"
+            />
+            <label for="a4c">A4C</label>
+          </div>
+          <div class="view">
+            <input
+                v-model="view_type"
+                type="radio"
+                id="psax"
+                name="view_type"
+                value="psax"
+            />
+            <label for="psax">PSAX</label>
+          </div>
+        </div>
+      </div>
+
       <UButton class="upload-confirmation" @click="handleUpload" :loading="isSubmitting">
         Confirm Upload
         <UIcon name="lets-icons:done-ring-round"/>
@@ -101,7 +129,7 @@ const handleUpload = async () => {
 <style scoped lang="scss">
 
 .popup-container {
-  height: 420px;
+  //height: 420px;
   width: 100%;
   background-color: #EFEFEF;
   outline: 4px solid #FFF;
@@ -174,6 +202,53 @@ const handleUpload = async () => {
       span {
         font-size: 20px;
         margin-left: 3px;
+      }
+    }
+  }
+
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto 2rem;
+    width: 300px;
+
+    &:last-child {
+      margin-bottom: 2.5rem;
+    }
+
+    input {
+      color: #464646 !important;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      background: none;
+      outline: none;
+      border-bottom: 1.5px solid #D6D6D6;
+      padding-bottom: 9px;
+      font-size: 14px;
+      width: 100%;
+
+      &[type='radio'] {
+        width: fit-content;
+      }
+    }
+
+    .view-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      margin-top: 5px;
+
+      .view {
+        input {
+          margin-right: 10px;
+        }
+
+        label {
+          color: #242424;
+        }
       }
     }
   }
