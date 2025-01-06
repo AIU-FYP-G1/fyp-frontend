@@ -20,7 +20,7 @@ export function createApi() {
   const config = useRuntimeConfig();
 
   const baseUrl = config.public.isDev
-      ? 'http://127.0.0.1:8000'
+      ? 'http://127.0.0.1:8000/api'
       : 'https://younesdjelloul.pythonanywhere.com';
 
   return constructApi(baseUrl);

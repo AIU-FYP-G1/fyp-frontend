@@ -18,7 +18,7 @@ const activeTab = ref(2)
       <div class="doctor-image">
         <img src="@/public/images/doctor-login-image.svg" alt="Doctor"/>
       </div>
-      <p class="copyright">&copy; 2024 AIU SCI. All rights reserved</p>
+      <p class="copyright">&copy; 2025 AIU SCI. All rights reserved</p>
     </div>
     <div class="right-panel">
       <div class="form-container">
