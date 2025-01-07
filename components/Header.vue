@@ -33,7 +33,7 @@ const openUploadModal = () => {
           <div class="flex items-center justify-between">
             <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white flex items-center justify-center text-md font-bold leading-tight">
               <div class="aiu-logo-container mx-3">
-                <NuxtImg src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo"/>
+                <img src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
               </div>
               Ejection Fraction Predictor
             </h3>
@@ -80,7 +80,7 @@ const openUploadModal = () => {
       <UIcon class="sidebar-handler" name="ant-design:bars-outlined" @click="isSlideoverOpen=true"/>
       <div class="left-section-lg-screen">
         <div class="aiu-logo-container">
-          <NuxtImg src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo"/>
+          <img src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
         </div>
         <div class="navigation-container">
           <div>
