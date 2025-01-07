@@ -16,7 +16,7 @@ const activeTab = ref(2)
         <img src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
       </div>
       <div class="doctor-image">
-        <img src="/images/doctor-login-image.svg" alt="Doctor">
+        <img src="/images/doctor-login-image.png" alt="Doctor">
       </div>
       <p class="copyright">&copy; 2025 AIU SCI. All rights reserved</p>
     </div>
