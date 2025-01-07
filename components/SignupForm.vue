@@ -144,7 +144,6 @@ const handleSubmit = async () => {
       margin-bottom: 1.7rem;
       display: flex;
       flex-direction: column;
-      position: relative;
 
       &:last-child {
         margin-bottom: 0;
@@ -153,8 +152,6 @@ const handleSubmit = async () => {
       .error {
         color: #FF4C4C;
         font-size: 12px;
-        position: absolute;
-        bottom: -19px;
       }
 
       label {
