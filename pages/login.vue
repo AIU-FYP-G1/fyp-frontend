@@ -13,10 +13,10 @@ const activeTab = ref(2)
   <div class="app">
     <div class="left-panel">
       <div class="aiu-logo">
-        <img src="@/public/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo">
+        <NuxtImg src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo"/>
       </div>
       <div class="doctor-image">
-        <img src="@/public/images/doctor-login-image.svg" alt="Doctor"/>
+        <NuxtImg src="/images/doctor-login-image.svg" alt="Doctor"/>
       </div>
       <p class="copyright">&copy; 2025 AIU SCI. All rights reserved</p>
     </div>
@@ -38,8 +38,14 @@ const activeTab = ref(2)
         </CTabs>
       </div>
       <div class="contact-info">
-        <p><UIcon name="ic:twotone-phone" class="" /> +600000000000</p>
-        <p><UIcon name="uiw:mail" class="" /> mail@gmail.com</p>
+        <p>
+          <UIcon name="ic:twotone-phone" class=""/>
+          +600000000000
+        </p>
+        <p>
+          <UIcon name="uiw:mail" class=""/>
+          mail@gmail.com
+        </p>
       </div>
     </div>
   </div>

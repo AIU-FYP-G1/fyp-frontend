@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-04-03',
   devtools: {enabled: true},
-  modules: ['@nuxt/ui', '@pinia/nuxt'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/image'],
   colorMode: {
     preference: 'light'
   },
@@ -25,5 +25,18 @@ export default defineNuxtConfig({
     public: {
       isDev: process.env.NODE_ENV === 'development',
     },
+  },
+  image: {
+    quality: 80,
+    format: ['webp'],
+    preload: true,
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536
+    }
   },
 })
