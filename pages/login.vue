@@ -16,7 +16,7 @@ const activeTab = ref(2)
         <NuxtImg src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo"/>
       </div>
       <div class="doctor-image">
-        <NuxtImg src="/doctor-login-image.svg" alt="Doctor"/>
+        <NuxtImg src="/images/doctor-login-image.svg" alt="Doctor"/>
       </div>
       <p class="copyright">&copy; 2025 AIU SCI. All rights reserved</p>
     </div>
