@@ -15,7 +15,11 @@ export default defineNuxtConfig({
     pageTransition: {
       name: 'page',
       mode: 'out-in'
-    }
+    },
+    baseURL: '/fyp-frontend/'
+  },
+  nitro: {
+    preset: 'github_pages'
   },
   runtimeConfig: {
     public: {
