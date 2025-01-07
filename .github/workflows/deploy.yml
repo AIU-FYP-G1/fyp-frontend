@@ -4,6 +4,8 @@ on:
   push:
     branches: ["master"]
 
+  workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
@@ -36,10 +38,6 @@ jobs:
         run: npm run generate
         env:
           NITRO_PRESET: github_pages
-
-      # Add this step to create .nojekyll file
-      - name: Create .nojekyll file
-        run: touch .output/public/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
