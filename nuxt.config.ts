@@ -27,9 +27,11 @@ export default defineNuxtConfig({
         },
     },
     image: {
-        dir: 'static',
+        staticFilename: '[publicPath]/[name][ext]',
+        domains: ['injecto.tech'],
+        format: ['webp', 'jpg', 'png'],
+        dir: 'public',
         quality: 80,
-        format: ['webp'],
         preload: true,
         screens: {
             xs: 320,
