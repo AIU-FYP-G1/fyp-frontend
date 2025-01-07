@@ -13,10 +13,10 @@ const activeTab = ref(2)
   <div class="app">
     <div class="left-panel">
       <div class="aiu-logo">
-        <NuxtImg src="@/public/images/aiu-logo.svg" loading="lazy" alt="AIU SCI Logo" class="logo"/>
+        <NuxtImg src="/images/aiu-logo.svg" alt="AIU SCI Logo" class="logo"/>
       </div>
       <div class="doctor-image">
-        <NuxtImg src="@/public/images/doctor-login-image.svg" loading="lazy" alt="Doctor"/>
+        <NuxtImg src="/images/doctor-login-image.svg" alt="Doctor"/>
       </div>
       <p class="copyright">&copy; 2025 AIU SCI. All rights reserved</p>
     </div>
