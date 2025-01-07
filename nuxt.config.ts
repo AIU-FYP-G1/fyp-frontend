@@ -1,42 +1,43 @@
 export default defineNuxtConfig({
-  ssr: false,
-  compatibilityDate: '2024-04-03',
-  devtools: {enabled: true},
-  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/image'],
-  colorMode: {
-    preference: 'light'
-  },
-  app: {
-    head: {
-      link: [
-        {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap'}
-      ]
+    ssr: false,
+    compatibilityDate: '2024-04-03',
+    devtools: {enabled: true},
+    modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/image'],
+    colorMode: {
+        preference: 'light'
     },
-    pageTransition: {
-      name: 'page',
-      mode: 'out-in'
+    app: {
+        head: {
+            link: [
+                {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&display=swap'}
+            ]
+        },
+        pageTransition: {
+            name: 'page',
+            mode: 'out-in'
+        },
+        baseURL: '',
     },
-    baseURL: '',
-  },
-  nitro: {
-    preset: 'github_pages'
-  },
-  runtimeConfig: {
-    public: {
-      isDev: process.env.NODE_ENV === 'development',
+    nitro: {
+        preset: 'github_pages'
     },
-  },
-  image: {
-    quality: 80,
-    format: ['webp'],
-    preload: true,
-    screens: {
-      xs: 320,
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-      xxl: 1536
-    }
-  },
+    runtimeConfig: {
+        public: {
+            isDev: process.env.NODE_ENV === 'development',
+        },
+    },
+    image: {
+        dir: 'static',
+        quality: 80,
+        format: ['webp'],
+        preload: true,
+        screens: {
+            xs: 320,
+            sm: 640,
+            md: 768,
+            lg: 1024,
+            xl: 1280,
+            xxl: 1536
+        }
+    },
 })
