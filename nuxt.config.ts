@@ -16,7 +16,7 @@ export default defineNuxtConfig({
       name: 'page',
       mode: 'out-in'
     },
-    baseURL: '/fyp-frontend/'
+    baseURL: process.env.NODE_ENV === 'development' ? '' : '/fyp-frontend/',
   },
   nitro: {
     preset: 'github_pages'

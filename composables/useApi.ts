@@ -21,7 +21,7 @@ export function createApi() {
 
   const baseUrl = config.public.isDev
       ? 'http://127.0.0.1:8000/api'
-      : 'https://younesdjelloul.pythonanywhere.com';
+      : 'https://fyp-backend-production-3c78.up.railway.app/api/';
 
   return constructApi(baseUrl);
 }
