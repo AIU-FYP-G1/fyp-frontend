@@ -13,7 +13,7 @@ const patients = usePatient()
       </div>
       <div class="diagnose-result">
         <div class="heart-container">
-          <img class="heart-beat" src="@/public/images/heart%20image.png" alt="heart">
+          <NuxtImg class="heart-beat" src="/images/heart%20image.png" alt="heart"/>
           <div class="result-box">
             <BlurOverlay v-if="patients.noDataToDisplay" message="No result yet!"/>
             <BlurOverlay v-else-if="patients.diagnosisLoading" message="Fetching.."/>
@@ -30,10 +30,10 @@ const patients = usePatient()
         <div class="circle first-circle pulse"></div>
         <div class="second-circle circle pulse"></div>
         <div class="dots">
-          <img src="@/public/images/details-dot.png" alt="detail-dot">
-          <img src="@/public/images/details-dot.png" alt="detail-dot">
-          <img src="@/public/images/details-dot.png" alt="detail-dot">
-          <img src="@/public/images/details-dot.png" alt="detail-dot">
+          <NuxtImg src="/images/details-dot.png" alt="detail-dot"/>
+          <NuxtImg src="/images/details-dot.png" alt="detail-dot"/>
+          <NuxtImg src="/images/details-dot.png" alt="detail-dot"/>
+          <NuxtImg src="/images/details-dot.png" alt="detail-dot"/>
         </div>
       </div>
     </div>
