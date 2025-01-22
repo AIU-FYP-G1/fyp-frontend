@@ -9,24 +9,14 @@
       <div class="title">About the project</div>
       <hr>
       <div class="content">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid, cumque dolor dolore doloremque eligendi
-        excepturi iste, laudantium libero modi necessitatibus rerum sequi soluta tenetur vitae. Id itaque libero
-        voluptatum.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aperiam asperiores dolorum eligendi, id
-        illo impedit ipsam mollitia nemo quis sequi tenetur. Dicta doloremque mollitia nobis, odit perferendis
-        repudiandae voluptatum!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error laboriosam nesciunt pariatur provident. Aliquam
-        dolores doloribus harum nobis quisquam reiciendis veritatis vero. Alias atque, cum dolorum eum minus vel vitae?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error laboriosam nesciunt pariatur provident. Aliquam
-        dolores doloribus harum nobis quisquam reiciendis veritatis vero. Alias atque, cum dolorum eum minus vel vitae?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error laboriosam nesciunt pariatur provident. Aliquam
-        dolores doloribus harum nobis quisquam reiciendis veritatis vero. Alias atque, cum dolorum eum minus vel vitae?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error laboriosam nesciunt pariatur provident. Aliquam
-        dolores doloribus harum nobis quisquam reiciendis veritatis vero. Alias atque, cum dolorum eum minus vel vitae?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error laboriosam nesciunt pariatur provident. Aliquam
-        dolores doloribus harum nobis quisquam reiciendis veritatis vero. Alias atque, cum dolorum eum minus vel vitae?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error laboriosam nesciunt pariatur provident. Aliquam
-        dolores doloribus harum nobis quisquam reiciendis veritatis vero. Alias atque, cum dolorum eum minus vel vitae?
+        This project presents a deep learning model that predicts the cardiac ejection fraction (EF) from 2D
+        echocardiogram videos of pediatric patients. The model integrates convolutional neural networks (CNN) and long
+        short-term memory (LSTM) networks to process echocardiogram videos in two common views: apical four-chamber
+        (A4C), and parasternal short axis (PSAX). By using video data and patient metadata including age, weight, height
+        and EF percentage. The CNN sub-module extracts feature maps from the video frames to learn spatial
+        representations, while the LSTM layers enable the learning of temporal dependencies that characterize the heart
+        movement. The MAE for the final EF prediction was 5.57 and 6.00 for A4C and PSAX respectively. This model also
+        utilizes a web application to allow clinical professionals to get the EF value.
       </div>
     </div>
   </div>
