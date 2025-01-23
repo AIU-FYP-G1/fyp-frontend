@@ -1,10 +1,18 @@
 <script setup lang="ts">
 
+const auth = useAuth()
+
+const isLoading = ref(true)
+
+onMounted(async () => {
+  await auth.fetchCurrentUserData()
+  isLoading.value = false
+})
 </script>
 
 <template>
   <div class="about">
-    <Header/>
+    <Header v-if="!isLoading"/>
     <div class="about-container">
       <div class="title">About the project</div>
       <hr>
