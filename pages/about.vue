@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import Loader from "~/components/base/Loader.vue";
+
 const auth = useAuth()
 
 const isLoading = ref(true)
@@ -11,8 +13,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="about">
-    <Header v-if="!isLoading"/>
+  <Loader v-if="isLoading"/>
+  <div class="about" v-else>
+    <Header/>
     <div class="about-container">
       <div class="title">About the project</div>
       <hr>
